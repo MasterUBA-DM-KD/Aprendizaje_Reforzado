@@ -9,27 +9,50 @@ repos:
       - id: check-case-conflict
       - id: check-merge-conflict
       - id: check-docstring-first
-      - id: name-tests-test
+      #      - id: name-tests-test
       - id: sort-simple-yaml
       - id: debug-statements
       - id: end-of-file-fixer
       - id: detect-private-key
       - id: check-added-large-files
-        args: ["--maxkb=10000"]
+        args: [ "--maxkb=10000" ]
       - id: trailing-whitespace
-        args: [--markdown-linebreak-ext=md]
-
+        args: [ --markdown-linebreak-ext=md ]
+  - repo: https://github.com/jonasbb/pre-commit-latex-hooks
+    rev: v1.4.0
+    hooks:
+      - id: american-eg-ie
+      - id: cleveref-capitalization
+      - id: consistent-spelling
+        args:
+          [
+            "--emph=et al.",
+            "--emph=a priori",
+            "--emph=a posteriori",
+            '--regex=naive=\bna(i|\\"i)ve',
+          ]
+      - id: csquotes
+      - id: ensure-labels-for-sections
+      - id: no-space-in-cite
+      - id: tilde-cite
+      - id: unique-labels
+        # args:
+        #     [
+        #       # If present only check that there is a \label{} but not the value
+        #       "--ignore-label-content",
+        #     ]
+      - id: cleveref-instead-of-autoref
   - repo: https://github.com/kynan/nbstripout
     rev: 0.7.1
     hooks:
       - id: nbstripout
-        args: ["notebooks/"]
+        args: [ "*.ipynb" ]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.4.4
     hooks:
       - id: ruff
-        types_or: [python, pyi, jupyter]
-        args: [--fix]
+        types_or: [ python, pyi, jupyter ]
+        args: [ --fix ]
       - id: ruff-format
-        types_or: [python, pyi, jupyter]
+        types_or: [ python, pyi, jupyter ]
