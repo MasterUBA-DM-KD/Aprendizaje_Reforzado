@@ -1,31 +1,182 @@
 \documentclass[12pt]{article}
 
-\usepackage[margin=1in]{geometry}        % For setting margins
+\usepackage[margin=1.5cm]{geometry}        % For setting margins
 \usepackage{amsmath}                % For Math
 \usepackage{fancyhdr}                % For fancy header/footer
 \usepackage{graphicx}                % For including figure/image
-\usepackage{cancel}                    % To use the slash to cancel out stuff in work
+\usepackage{cancel}                    % To use the slash to cancel out stuff in working out equations
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{bbm}
 
 %%%%%%%%%%%%%%%%%%%%%%
 % Set up fancy header/footer
 \pagestyle{fancy}
 \fancyhead[LO,L]{Alejandro Uribe}
-\fancyhead[CO,C]{Aprendizaje Reforzado - Guía 1}
+\fancyhead[CO,C]{Aprendizaje Reforzado - Guía 1: Multi-armed bandits}
 \fancyhead[RO,R]{\today}
 \fancyfoot[LO,L]{}
 \fancyfoot[CO,C]{\thepage}
 \fancyfoot[RO,R]{}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
 %%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
-    \underline{Ejercicio 1}
+    \indent\underline{Ejercicio 1}
 
-    \noindent Demostrar que,si conociéramos exactamente el valor de cada acción, es decir si  $Q_{t} (a) = E \left[ R_{t} \big| A_{t}=a \right] $, entonces la acción \textit{greedy} $ A_{t} = argmax_{a}Q_{t}(a) $ es la acción óptima en el sentido de que permite maximizar las recompensas totales
+    Demostrar que, si conociéramos exactamente el valor de cada acción, es decir, si $Q_{t} (a) = E \left[ R_{t} \big| A_{t}=a \right]$, entonces la acción \textit{greedy} $ A_{t} = argmax_{a}Q_{t}(a) $ es la acción óptima en el sentido de que permite maximizar las recompensas totales.
 
-	\underline{Ejercicio 2}
+    \indent\underline{Solución:}
 
-    \noindent Lorem Ipsum
+    Sea,\\
+    $a$: Acción arbitraria \\
+    $A_{t}$: Acción tomada en el tiempo $t$ \\
+    $R_{t}$: Recompensa obtenida en el tiempo $t$ \\
+    $Q_{t}(a)$: Valor estimado de la acción $a$ en el tiempo $t$ \\
+    $q_{*}(a)$: Recompensa esperada dado que se toma la acción $a$ \\
+    Acción \textit{greedy}: acción cuyo valor estimado es el mayor de todos los valores estimados de las acciones posibles en el tiempo $t$ \\
+
+    El valor $q_{*}(a)$ de una acción arbitraria $a$ equivale al valor esperado de la recompensa si $a$ es seleccionada.
+
+    \[ q_{*}(a) \doteq \mathbb{E} \left[ R_{t} \big| A_{t}=a \right] \]
+
+    La aplicación del algoritmo \textit{greedy} implica guardar los valores estimados de las acciones en cada iteración, en una estrategia no exploratoria.
+    Se calcula $Q_{t}(a)$ como el valor estimado de la acción $a$ en el tiempo $t$, o bien, promediando las recompensas obtenidas, es decir,
+
+    \begin{gather*}
+        Q_{t}(a)
+        \doteq
+        \frac{\text{suma de las recompensas al tomar \textbf{a} antes de \textbf{t}}}
+        {\text{veces que se ha tomado \textbf{a} antes de \textbf{t}}}
+    \end{gather*}
+
+    Donde $\mathbbm{1}$ denota una variable aleatoria que toma el valor 1 si la acción $a$ fue seleccionada en el tiempo $t$, y 0 en caso contrario\footnotemark.
+    \footnotetext{Si el denominador es 0, se define $Q_{t}(a)$ como un valor por defecto, sea 0}
+    La estrategia no exploratoria se interpreta matemáticamente como:
+
+    \[
+        Q_t(a)= \frac{ \sum_{i=1}^{t-1} R_{i} \cdot \mathbbm{1} }{ \sum_{i=1}^{t-1} \mathbbm{1}_{A_{i}=a}}
+    \]
+
+    De la cual se toma el valor máximo del \textit{Q-valor}, es decir
+
+    \[
+        A_{t} = argmax_{a}Q_{t}(a)
+    \]
+
+    Si se conociera el valor de $q_{*}(a)$, entonces la acción \textit{greedy} será la acción que maximiza el valor esperado de la recompensa, es decir, la acción $a$ tal que $Q_{t}(a) \approx q_{*}(a)$.
+
+    \indent\underline{Ejercicio 2}
+
+    En una selección de acciones tipo $\varepsilon-greedy$ con dos acciones posibles y $\varepsilon=0.1$, ¿Cuál es la probabilidad de seleccionar la acción \textit{greedy}?
+
+    \indent\underline{Solución:}
+
+    \indent\underline{Ejercicio 3}
+    Demostrar que el valor de una acción después de haber sido seleccionada $n-1$ veces, definido como
+
+    \[ Q_{n} = \frac{R_{1} + R_{2} + \ldots + R_{n-1}}{n-1} \]
+
+    puede calcularse incrementalmente con la siguiente fórmula:
+
+%    \[ Q_{n} (a) = Q_{n-1} (a) + \frac{1}{n} \left[ R_{n} - Q_{n-1} (a) \right] \]
+
+    \[ Q_{n+1} = Q_{n} + \frac{1}{n} \left[ R_{n} - Q_{n} \right] \]
+
+    Describa la ventaja de esta fórmula desde un punto de vista computacional.
+
+    \indent\underline{Solución:}
+
+
+    \indent\underline{Ejercicio 4}
+
+    Considere un problema \textit{k-armed bandit} con $k = 4$ acciones.
+    Considere la aplicación de un algoritmo \textit{bandit} usando selección de acciones $\varepsilon$ \textit{- greedy}, estimación incremental de los valores de cada acción y valores iniciales nulos $Q_{1}(a) = 0\ \forall a$.
+    Suponga la siguiente secuencia de acciones y recompensas: $A_{1}=1,\ R_{1}=1,\ A_{2}=2,\ R_{2}=1,\ A_{3}=2,\ R_{3}=-2,\ A_{4}=2,\ R_{4}=2,\ A_{5}=3,\ R_{5}=0$.
+    En algunos de estos pasos se ha tomado una decisión aleatoria.
+
+    \begin{itemize}
+        \item ¿En qué pasos definitivamente se tomaron decisiones aleatorias?
+        \item ¿En qué pasos es posible que la decisión haya sido aleatoria?
+    \end{itemize}
+
+    \indent\underline{Solución:}
+
+    \indent\underline{Ejercicio 5}
+
+    \textcolor{green}{[Programación]} Aplique el algoritmo bandit $\varepsilon-greedy$ con $\varepsilon=0$ (greedy), $\varepsilon=0.01$ y $\varepsilon=0.1$ a un problema \textit{k-armed bandit} con $k=10$ acciones.
+    Considere recompensas con medias aleatorias y desvío estándar constante $\sigma$.
+    Analice experimentalmente el efecto del desvío estándar $\sigma$ evaluando tres casos: $\varepsilon=0$ (determinístico), $\varepsilon=1$ y $\varepsilon=10$.
+    ¿Qué conclusiones puede sacar?
+
+    \indent\underline{Solución:}
+
+    \indent\underline{Ejercicio 6}
+
+    Dada la fórmula adaptativa del valor $Q_{n+1}= Q_n+\alpha\left[R_{n}-Q_{n}\right]$ con $\alpha\in\left(0,1\right]$, demostrar que
+
+    \begin{itemize}
+        \item $Q_{n+1}=(1-\alpha)^{n}Q_{n} + \sum_{i=1}^n \alpha(1-\alpha)^{n-i}R_{i}$
+        \item $(1-\alpha)+\sum_{i=1}^{n} \alpha(1-\alpha)^{n-i}=1$, es decir, $Q_{n+1}$ es un promedio pesado de $Q_{n},R_1,R_2,\dots,R_n$.
+    \end{itemize}
+
+    \indent\underline{Solución:}
+
+    \indent\underline{Ejercicio 7}
+
+    Demostrar que fórmula adaptativa para calcular el valor $Q_{n+1}=Q_n+\alpha\left[R_n-Q_n\right]$ con  \textit{step-size} $\alpha\in\left(0,1\right]$ constante no verifica las hipótesis del teorema de convergencia y, por lo tanto, no está garantizada su convergencia.
+
+    \indent\underline{Solución:}
+
+    \indent\underline{Ejercicio 8}
+
+    En la \textit{Figura 2.3} del libro \textit{Sutton\&Barto (2018)}, se observa un \textit{spike} en el paso número 11 cuando se utiliza inicialización optimista.
+    De una explicación de este fenómeno.
+
+    \indent\underline{Solución:}
+
+    \indent\underline{Ejercicio 9}
+
+    Demuestre que la función SOFTMAX: $p(a)=\frac{e^{H(a)}}{\sum_{a'=1}^{K} e^{H(a')}}$, define una distribución de probabilidades discreta válida.
+
+    \indent\underline{Solución:}
+
+    \indent\underline{Ejercicio 10}
+
+    Demostrar que las derivadas de la función SOFTMAX $p(x)$ respecto de sus parámetros $H(a),\ a=1,2,\dots,K$, son iguales a:
+
+    \[
+        \frac{\partial p(x)}{\partial H(a)} =
+        \begin{cases}
+            p(x)(1-p(x))    &\text{si $x = a$} \\
+            -p(x)p(a)       &\text{si $x\neq a$}
+        \end{cases}
+    \]
+
+    \indent\underline{Solución:}
+
+    \indent\underline{Ejercicio 11}
+
+    Demostrar que la regla de actualización por gradiente ascendente estocástico:
+
+    \[H_{t+1}(a) = H_t (a) + \alpha \frac{\partial E[R_t] }{\partial H_t(a)}\]
+
+    con $E[R_t] = \sum_{x=1}^{K p_t(x)q*(x)}$, puede escribirse de la siguiente manera:
+
+    \[
+        H_{t+1}(a) =
+        \begin{cases}
+            H_t (a) + \alpha (R_t - C)(1-p_t(a))    &\text{si $a = A_t$} \\
+            H_t (a) - \alpha (R_t - C)p_t(a)        &\text{si $a \neq A_t$}
+        \end{cases}
+    \]
+
+    \indent\underline{Solución:}
 
 \end{document}
