@@ -46,7 +46,7 @@ repos:
     rev: 0.7.1
     hooks:
       - id: nbstripout
-        args: [ "*.ipynb" ]
+#        args: [ "docs/*.ipynb" ]
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.4.4
