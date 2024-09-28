@@ -2,6 +2,7 @@
 
 \usepackage[margin=1.5cm]{geometry}        % For setting margins
 \usepackage[spanish,es-tabla]{babel}
+\selectlanguage{spanish}
 \usepackage{amsmath}                % For Math
 \usepackage{fancyhdr}                % For fancy header/footer
 \usepackage{graphicx}                % For including figure/image
@@ -12,6 +13,7 @@
 \usepackage{subcaption}
 \usepackage{lipsum}
 \usepackage{listings}
+\usepackage{algorithm,algpseudocode}
 \captionsetup{compatibility=false}
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -30,12 +32,14 @@
 \setlength{\tindent}{\parindent}
 \setlength{\parindent}{0pt}
 \renewcommand{\indent}{\hspace*{\tindent}}
+\DeclareMathOperator*{\argmax}{argmax}
+\floatname{algorithm}{Algoritmo}
 %%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
     \indent\underline{Ejercicio 1}
 
-    Demostrar que, si conociéramos exactamente el valor de cada acción, es decir, si $Q_{t} (a) = E \left[ R_{t} \big| A_{t}=a \right]$, entonces la acción \textit{greedy} $ A_{t} = argmax_{a}Q_{t}(a) $ es la acción óptima en el sentido de que permite maximizar las recompensas totales.
+    Demostrar que, si conociéramos exactamente el valor de cada acción, es decir, si $Q_{t} (a) = E \left[ R_{t} \big| A_{t}=a \right]$, entonces la acción \textit{greedy} $ A_{t} = \argmax_{a}Q_{t}(a) $ es la acción óptima en el sentido de que permite maximizar las recompensas totales.
 
     \indent\underline{Solución:}
 
@@ -77,11 +81,21 @@
 
     Si se conociera el valor de $q_{*}(a)$, entonces la acción \textit{greedy} será la acción que maximiza el valor esperado de la recompensa, es decir, la acción $a$ tal que $Q_{t}(a) \approx q_{*}(a)$.
 
+    \line(1,0){\textwidth}
+
     \indent\underline{Ejercicio 2}
 
     En una selección de acciones tipo $\varepsilon-greedy$ con dos acciones posibles y $\varepsilon=0.1$, ¿Cuál es la probabilidad de seleccionar la acción \textit{greedy}?
 
     \indent\underline{Solución:}
+
+    En una estrategia de acciones tipo $\varepsilon-greedy$, se selecciona una acción aleatoria con probabilidad $\varepsilon$ y se selecciona la acción \textit{greedy} con probabilidad $1-\varepsilon$.
+    Es decir, si $\varepsilon=0.1$, entonces la probabilidad de seleccionar la acción \textit{greedy} es de $1-\varepsilon=0.9$.
+    O bien,
+
+    \[P(\text{acción \textit{greedy}}) = 1-\varepsilon = 1 - 0.1 = 0.9\]
+
+    \line(1,0){\textwidth}
 
     \indent\underline{Ejercicio 3}
     Demostrar que el valor de una acción después de haber sido seleccionada $n-1$ veces, definido como
@@ -103,7 +117,7 @@
 
     Dado que $Q_{n}$ es el promedio de las recompensas obtenidas después de haber seleccionado la acción $n-1$ veces, se tiene que
 
-     \[ Q_{n} = \frac{R_{1} + R_{2} + \ldots + R_{n-1}}{n-1} \]
+    \[ Q_{n} = \frac{R_{1} + R_{2} + \ldots + R_{n-1}}{n-1} \]
 
     O bien puede escribirse como
 
@@ -135,6 +149,8 @@
         \item El cálculo del valor de $Q_{n+1}$ únicamente requiere guardar el valor de $Q_{n}$ y $n$ para poder calcular el valor de la acción después de haber sido seleccionada $n+1$ veces.
     \end{itemize}
 
+    \line(1,0){\textwidth}
+
     \indent\underline{Ejercicio 4}
 
     Considere un problema \textit{k-armed bandit} con $k = 4$ acciones.
@@ -151,6 +167,8 @@
 
     \lipsum[4]
 
+    \line(1,0){\textwidth}
+
 
     \indent\underline{Ejercicio 5}
 
@@ -158,7 +176,7 @@
     \begin{itemize}
         \item $\varepsilon=0$ (greedy)
         \item $\varepsilon=0.01$
-        \item $\varepsilon=0.1$
+        \item $\varepsilon=0.10$
     \end{itemize}
 
     A un problema \textit{k-armed bandit} con $k=10$ acciones.
@@ -174,89 +192,158 @@
 
     \indent\underline{Solución:}
 
-    Las recompensas con medias aleatorias y desvío estándar constante $\sigma$ se muestran en la Figura~\ref{fig:rewards}.
+    El algoritmo bandit $\varepsilon-greedy$ consiste en los siguientes pasos:
+
+    \begin{algorithm}[H]
+        \caption{Algoritmo $\varepsilon-greedy$ para el problema de Multi-Armed Bandit}
+        \begin{algorithmic}[1]
+            \State \textbf{Inicializar:} para $a = 1$ hasta $k$:
+            \State \quad $Q(a) \leftarrow 0$ \quad // Valor estimado de la acción $a$
+            \State \quad $N(a) \leftarrow 0$ \quad // Número de veces que se ha seleccionado la acción $a$
+            \State \textbf{Iterar $n$ veces:}
+            \State \quad Seleccionar una acción $A$:
+            \State \quad \quad $A \leftarrow
+            \begin{cases}
+                \argmax_{a} Q(a) & \text{con probabilidad } 1 - \varepsilon \\
+                \text{una acción aleatoria} & \text{con probabilidad } \varepsilon
+            \end{cases}$
+            \State \quad $R \leftarrow bandit(A)$: Obtener la recompensa $R$ de la acción seleccionada.
+            \State \quad $N(A) \leftarrow N(A) + 1$: Actualizar el número de selecciones de $A$.
+            \State \quad $Q(A) \leftarrow Q(A) + \frac{1}{N(A)} [R - Q(A)]$: Actualizar la estimación de valor de $A$.
+        \end{algorithmic}\label{alg:epsilon_greedy}
+    \end{algorithm}
+
+    Se inicializó la recompensa media de cada brazo tal que se distribuya normalmente $\mu_{i} \sim \mathcal{N}(0,\,1)$.
+
+    \[
+        \mu_k = \left[ \mu_{0}, \mu_{1}, \ldots, \mu_{k-1} \right] \quad \text{con} \quad \mu_{i} \sim \mathcal{N}(0, 1) \quad \forall \quad i = 0, 1, 2, \ldots, k-1
+    \]
+
+
+
+    Teniendo en cuenta las recompensas medias $\mu_{k}$ y los desvíos estándar $\sigma$, se calcularon las recompensas para cada brazo $R_{k}$:
+
+    \[
+        R_k \sim \mathcal{N}(\mu_k,\,\sigma^{2}) \quad \forall i,\sigma \\
+    \]
+    Donde,\\
+    $k = 10 \quad \text{brazos}$ \\
+    $\sigma \in \left\{ 0, 1, 10 \right\} \quad \text{desvío estándar}$ \\
+    $R_k = \left[ R_{0}, R_{1}, \ldots, R_{k-1} \right] \quad \text{con} \quad R_{i} \sim \mathcal{N}(\mu_{i}, \sigma^{2}) \quad \forall \quad i = 0, 1, 2, \ldots, k-1.$
+
+%    \forall k \in [0,9] \cap \mathbb{Z}
+
+
+    Las recompensas para cada caso se muestran en la Figura~\ref{fig:rewards}.
 
     \begin{figure}[h]
         \centering
-        \begin{subfigure}[H]{0.45\textwidth}
+        \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/rewards_sigma_0}
             \caption{$\sigma=0$}
             \label{fig:rewards_0}
         \end{subfigure}
-        \begin{subfigure}[H]{0.45\textwidth}
+        \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/rewards_sigma_1}
             \caption{$\sigma=1$}
             \label{fig:rewards_1}
         \end{subfigure}
-        \begin{subfigure}[H]{0.45\textwidth}
+        \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/rewards_sigma_10}
             \caption{$\sigma=10$}
             \label{fig:rewards_10}
         \end{subfigure}
-        \caption{Recompensas con medias aleatorias y desvío estándar constante $\sigma$}
+        \caption{Recompensa para cada brazo, $k=10$}
         \label{fig:rewards}
     \end{figure}
 
-    \lipsum[1]
+    Se aplicó el algoritmo $\varepsilon-greedy$ para los distintos valores de $R_b$.
+    Los resultados de los \textit{Q-valor} estimados de las acciones para las distintas combinaciones de $\varepsilon$ y $\sigma$ se muestran en la Figura~\ref{fig:estimations}.
 
-    Los resultados de los valores estimados de las acciones para $\varepsilon=0$ (greedy), $\varepsilon=0.01$ y $\varepsilon=0.1$ se muestran en la Figura~\ref{fig:estimations}.
-
-    \begin{figure}[]
+    \begin{figure}[h]
         \centering
 
         \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_0_epsilon_0}
-            \caption{$\varepsilon=0$ - $\sigma=0$}
+            \includegraphics[width=\textwidth]{../img/values_sigma_0}
+            \caption{$\sigma=0$}
             \label{fig:estimations_0}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_0_epsilon_0.01}
-            \caption{$\varepsilon=0.01$ - $\sigma=0$}
+            \includegraphics[width=\textwidth]{../img/values_sigma_1}
+            \caption{$\sigma=1$}
             \label{fig:estimations_1}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_0_epsilon_0.1}
-            \caption{$\varepsilon=0.1$ - $\sigma=0$}
+            \includegraphics[width=\textwidth]{../img/values_sigma_10}
+            \caption{$\sigma=10$}
             \label{fig:estimations_2}
-        \end{subfigure}
-
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_1_epsilon_0}
-            \caption{$\varepsilon=0$ - $\sigma=1$}
-            \label{fig:estimations_3}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_1_epsilon_0.01}
-            \caption{$\varepsilon=0.01$ - $\sigma=1$}
-            \label{fig:estimations_4}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_1_epsilon_0.1}
-            \caption{$\varepsilon=0.1$ - $\sigma=1$}
-            \label{fig:estimations_5}
-        \end{subfigure}
-
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_10_epsilon_0}
-            \caption{$\varepsilon=0$ - $\sigma=10$}
-            \label{fig:estimations_6}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_10_epsilon_0.01}
-            \caption{$\varepsilon=0.01$ - $\sigma=10$}
-            \label{fig:estimations_7}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_10_epsilon_0.1}
-            \caption{$\varepsilon=0.1$ - $\sigma=10$}
-            \label{fig:estimations_8}
         \end{subfigure}
 
         \caption{Valores estimados de las acciones para $\varepsilon$ $\sigma$}
         \label{fig:estimations}
     \end{figure}
 
+    Las figuras~\ref{fig:estimations_0},~\ref{fig:estimations_1} y~\ref{fig:estimations_2} muestran que el Q-valor es cero para todas las acciones, aunque aumente el valor de $\varepsilon$ ya que las recompensas son cero para todos los brazos y por lo tanto, determinístico.
+
+    La Figura~\ref{fig:arms_selected} muestra el número de veces que se seleccionó cada brazo para los distintos valores de $\varepsilon$ y $\sigma$.
+
+    \begin{figure}[h]
+        \centering
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/arm_sigma_0_epsilon_0}
+            \caption{$\varepsilon=0$ - $\sigma=0$}
+            \label{fig:arms_selected_0_0}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/arm_sigma_0_epsilon_0.01}
+            \caption{$\varepsilon=0.01$ - $\sigma=0$}
+            \label{fig:arms_selected_0_0.01}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/arm_sigma_0_epsilon_0.1}
+            \caption{$\varepsilon=0.10$ - $\sigma=0$}
+            \label{fig:arms_selected_0_0.1}
+        \end{subfigure}
+
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/arm_sigma_1_epsilon_0}
+            \caption{$\varepsilon=0$ - $\sigma=1$}
+            \label{fig:arms_selected_1_0}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/arm_sigma_1_epsilon_0.01}
+            \caption{$\varepsilon=0.01$ - $\sigma=1$}
+            \label{fig:arms_selected_1_0.01}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/arm_sigma_1_epsilon_0.1}
+            \caption{$\varepsilon=0.10$ - $\sigma=1$}
+            \label{fig:arms_selected_1_0.1}
+        \end{subfigure}
+
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/arm_sigma_10_epsilon_0}
+            \caption{$\varepsilon=0$ - $\sigma=10$}
+            \label{fig:arms_selected_10_0}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/arm_sigma_10_epsilon_0.01}
+            \caption{$\varepsilon=0.01$ - $\sigma=10$}
+            \label{fig:arms_selected_10_0.01}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/arm_sigma_10_epsilon_0.1}
+            \caption{$\varepsilon=0.10$ - $\sigma=10$}
+            \label{fig:arms_selected_10_0.1}
+        \end{subfigure}
+
+        \caption{Número de veces que se seleccionó cada brazo}
+        \label{fig:arms_selected}
+    \end{figure}
+
     \lipsum[2]
+
+    \line(1,0){\textwidth}
 
     \indent\underline{Ejercicio 6}
 
@@ -271,6 +358,8 @@
 
     \lipsum[2]
 
+    \line(1,0){\textwidth}
+
     \indent\underline{Ejercicio 7}
 
     Demostrar que fórmula adaptativa para calcular el valor $Q_{n+1}=Q_n+\alpha\left[R_n-Q_n\right]$ con  \textit{step-size} $\alpha\in\left(0,1\right]$ constante no verifica las hipótesis del teorema de convergencia y, por lo tanto, no está garantizada su convergencia.
@@ -278,6 +367,8 @@
     \indent\underline{Solución:}
 
     \lipsum[2]
+
+    \line(1,0){\textwidth}
 
     \indent\underline{Ejercicio 8}
 
@@ -288,6 +379,8 @@
 
     \lipsum[2]
 
+    \line(1,0){\textwidth}
+
     \indent\underline{Ejercicio 9}
 
     Demuestre que la función SOFTMAX: $p(a)=\frac{e^{H(a)}}{\sum_{a'=1}^{K} e^{H(a')}}$, define una distribución de probabilidades discreta válida.
@@ -295,6 +388,8 @@
     \indent\underline{Solución:}
 
     \lipsum[2]
+
+    \line(1,0){\textwidth}
 
     \indent\underline{Ejercicio 10}
 
@@ -311,6 +406,8 @@
     \indent\underline{Solución:}
 
     \lipsum[2]
+
+    \line(1,0){\textwidth}
 
     \indent\underline{Ejercicio 11}
 
@@ -331,6 +428,8 @@
     \indent\underline{Solución:}
 
     \lipsum[5]
+
+    \line(1,0){\textwidth}
 
     \paragraph{Referencias}\label{sec:references}
     \lipsum[5]
