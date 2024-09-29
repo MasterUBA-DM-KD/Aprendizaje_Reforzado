@@ -10,6 +10,7 @@
 \usepackage{amsfonts}
 \usepackage{color}
 \usepackage{bbm}
+\usepackage{float}
 \usepackage{subcaption}
 \usepackage{lipsum}
 \usepackage{listings}
@@ -165,28 +166,16 @@
 
     \indent\underline{Solución:}
 
-    \lipsum[4]
+    \lipsum[10]
 
     \line(1,0){\textwidth}
 
 
     \indent\underline{Ejercicio 5}
 
-    \textcolor{green}{[Programación]} Aplique el algoritmo bandit $\varepsilon-greedy$ con
-    \begin{itemize}
-        \item $\varepsilon=0$ (greedy)
-        \item $\varepsilon=0.01$
-        \item $\varepsilon=0.10$
-    \end{itemize}
-
-    A un problema \textit{k-armed bandit} con $k=10$ acciones.
+    \textcolor{green}{[Programación]} Aplique el algoritmo bandit $\varepsilon-greedy$ con $\varepsilon \in \left\{ 0, 0.01, 0.10 \right\}$ a un problema \textit{k-armed bandit} con $k=10$ acciones.
     Considere recompensas con medias aleatorias y desvío estándar constante $\sigma$.
-    Analice experimentalmente el efecto del desvío estándar $\sigma$ evaluando tres casos:
-    \begin{itemize}
-        \item $\sigma=0$ (determinístico)
-        \item $\sigma=1$
-        \item $\sigma=10$
-    \end{itemize}
+    Analice experimentalmente el efecto del desvío estándar $\sigma$ evaluando tres casos: $\sigma \in \left\{ 0, 1, 10 \right\}$
 
     ¿Qué conclusiones puede sacar?
 
@@ -213,30 +202,36 @@
         \end{algorithmic}\label{alg:epsilon_greedy}
     \end{algorithm}
 
+    Donde,\\
+    $a$: Acción arbitraria \\
+    $A$: Acción seleccionada \\
+    $R$: Recompensa obtenida \\
+    $Q(A)$: Valor estimado de la acción $A$ \\
+    $N(A)$: Número de veces que se ha seleccionado la acción $A$ \\
+    $bandit(A)$: Función que devuelve la recompensa de la acción $A$ \\
+    $R$: Recompensa obtenida \\
+
+    Sean las constantes, \\
+    $k = 10$: Número de brazos \\
+    $n = 20000$: Número de iteraciones \\
+    $\varepsilon \in \left\{ 0, 0.01, 0.10 \right\}$: Probabilidad de exploración \\
+    $\sigma \in \left\{ 0, 1, 10 \right\}$: Desvío estándar de las recompensas \\
+
     Se inicializó la recompensa media de cada brazo tal que se distribuya normalmente $\mu_{i} \sim \mathcal{N}(0,\,1)$.
 
     \[
         \mu_k = \left[ \mu_{0}, \mu_{1}, \ldots, \mu_{k-1} \right] \quad \text{con} \quad \mu_{i} \sim \mathcal{N}(0, 1) \quad \forall \quad i = 0, 1, 2, \ldots, k-1
     \]
 
-
-
     Teniendo en cuenta las recompensas medias $\mu_{k}$ y los desvíos estándar $\sigma$, se calcularon las recompensas para cada brazo $R_{k}$:
 
     \[
         R_k \sim \mathcal{N}(\mu_k,\,\sigma^{2}) \quad \forall i,\sigma \\
     \]
-    Donde,\\
-    $k = 10 \quad \text{brazos}$ \\
-    $\sigma \in \left\{ 0, 1, 10 \right\} \quad \text{desvío estándar}$ \\
-    $R_k = \left[ R_{0}, R_{1}, \ldots, R_{k-1} \right] \quad \text{con} \quad R_{i} \sim \mathcal{N}(\mu_{i}, \sigma^{2}) \quad \forall \quad i = 0, 1, 2, \ldots, k-1.$
-
-%    \forall k \in [0,9] \cap \mathbb{Z}
-
 
     Las recompensas para cada caso se muestran en la Figura~\ref{fig:rewards}.
 
-    \begin{figure}[h]
+    \begin{figure}[H]
         \centering
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/rewards_sigma_0}
@@ -253,14 +248,14 @@
             \caption{$\sigma=10$}
             \label{fig:rewards_10}
         \end{subfigure}
-        \caption{Recompensa para cada brazo, $k=10$}
+        \caption{Recompensa para cada brazo}
         \label{fig:rewards}
     \end{figure}
 
-    Se aplicó el algoritmo $\varepsilon-greedy$ para los distintos valores de $R_b$.
-    Los resultados de los \textit{Q-valor} estimados de las acciones para las distintas combinaciones de $\varepsilon$ y $\sigma$ se muestran en la Figura~\ref{fig:estimations}.
+    Se aplicó el algoritmo $\varepsilon-greedy$ con distintas combinaciones de $\varepsilon$ y $\sigma$.
+    Los resultados de los \textit{Q-valor} de las acciones se muestran en la Figura~\ref{fig:estimations}.
 
-    \begin{figure}[h]
+    \begin{figure}[H]
         \centering
 
         \begin{subfigure}[H]{0.3\textwidth}
@@ -279,7 +274,7 @@
             \label{fig:estimations_2}
         \end{subfigure}
 
-        \caption{Valores estimados de las acciones para $\varepsilon$ $\sigma$}
+        \caption{\textit{Q-Valor} de las acciones}
         \label{fig:estimations}
     \end{figure}
 
@@ -287,53 +282,53 @@
 
     La Figura~\ref{fig:arms_selected} muestra el número de veces que se seleccionó cada brazo para los distintos valores de $\varepsilon$ y $\sigma$.
 
-    \begin{figure}[h]
+    \begin{figure}[H]
         \centering
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/arm_sigma_0_epsilon_0}
-            \caption{$\varepsilon=0$ - $\sigma=0$}
+            \caption{$\sigma=0 ,\ \varepsilon=0$}
             \label{fig:arms_selected_0_0}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/arm_sigma_0_epsilon_0.01}
-            \caption{$\varepsilon=0.01$ - $\sigma=0$}
+            \caption{$\sigma=0 ,\ \varepsilon=0.01$}
             \label{fig:arms_selected_0_0.01}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/arm_sigma_0_epsilon_0.1}
-            \caption{$\varepsilon=0.10$ - $\sigma=0$}
+            \caption{$\sigma=0 ,\ \varepsilon=0.10$}
             \label{fig:arms_selected_0_0.1}
         \end{subfigure}
 
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/arm_sigma_1_epsilon_0}
-            \caption{$\varepsilon=0$ - $\sigma=1$}
+            \caption{$\sigma=1 ,\ \varepsilon=0$}
             \label{fig:arms_selected_1_0}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/arm_sigma_1_epsilon_0.01}
-            \caption{$\varepsilon=0.01$ - $\sigma=1$}
+            \caption{$\sigma=1 ,\ \varepsilon=0.01$}
             \label{fig:arms_selected_1_0.01}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/arm_sigma_1_epsilon_0.1}
-            \caption{$\varepsilon=0.10$ - $\sigma=1$}
+            \caption{$\sigma=1 ,\ \varepsilon=0.10$}
             \label{fig:arms_selected_1_0.1}
         \end{subfigure}
 
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/arm_sigma_10_epsilon_0}
-            \caption{$\varepsilon=0$ - $\sigma=10$}
+            \caption{$\sigma=10 ,\ \varepsilon=0$}
             \label{fig:arms_selected_10_0}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/arm_sigma_10_epsilon_0.01}
-            \caption{$\varepsilon=0.01$ - $\sigma=10$}
+            \caption{$\sigma=10 ,\ \varepsilon=0.01$}
             \label{fig:arms_selected_10_0.01}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
             \includegraphics[width=\textwidth]{../img/arm_sigma_10_epsilon_0.1}
-            \caption{$\varepsilon=0.10$ - $\sigma=10$}
+            \caption{$\sigma=10 ,\ \varepsilon=0.10$}
             \label{fig:arms_selected_10_0.1}
         \end{subfigure}
 
@@ -341,7 +336,31 @@
         \label{fig:arms_selected}
     \end{figure}
 
-    \lipsum[2]
+    Finalmente, se analizó la recompensa promedio obtenida en función del número de iteraciones para los distintos valores de $\varepsilon$ y $\sigma$.
+    Los resultados se muestran en la Figura~\ref{fig:average_reward}.
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/reward_iteration_sigma_0}
+            \caption{$\sigma=0$}
+            \label{fig:average_reward_0}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/reward_iteration_sigma_1}
+            \caption{$\sigma=1$}
+            \label{fig:average_reward_1}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/reward_iteration_sigma_10}
+            \caption{$\sigma=10$}
+            \label{fig:average_reward_10}
+        \end{subfigure}
+        \caption{Recompensa promedio obtenida}
+        \label{fig:average_reward}
+    \end{figure}
+
+    En las figuras~\ref{fig:average_reward_0},~\ref{fig:average_reward_1} y~\ref{fig:average_reward_10} se observa que la recompensa promedio obtenida es cero para todos los valores de $\varepsilon$ y $\sigma$.
 
     \line(1,0){\textwidth}
 
@@ -374,6 +393,13 @@
 
     En la \textit{Figura 2.3} del libro \textit{Sutton\&Barto (2018)}, se observa un \textit{spike} en el paso número 11 cuando se utiliza inicialización optimista.
     De una explicación de este fenómeno.
+
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=0.5\textwidth]{../img/Figura2_3_SuttonBarto}
+        \caption{Figura 2.3 - Sutton\&Barto (2018)}
+        \label{fig:fig_2_3}
+    \end{figure}
 
     \indent\underline{Solución:}
 

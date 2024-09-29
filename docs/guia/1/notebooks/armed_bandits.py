@@ -26,6 +26,8 @@ class EpsilonGreedyBandit:
         self.epsilon = epsilon
         self.counts = np.zeros(n_arms)
         self.values = np.zeros(n_arms)
+        self.rewards_in_time = [0.0]
+        self.arm_in_time = []
 
     def select_arm(self) -> int:
         """
@@ -38,10 +40,14 @@ class EpsilonGreedyBandit:
         """
         if np.random.rand() > self.epsilon:
             # Exploitation: select the arm with the highest estimated value
-            return int(np.argmax(self.values))
+            arm = int(np.argmax(self.values))
+            self.arm_in_time.append(arm)
+            return arm
         else:
             # Exploration: select a random arm
-            return np.random.randint(0, self.n_arms)
+            arm = np.random.randint(0, self.n_arms)
+            self.arm_in_time.append(arm)
+            return arm
 
     def update(self, arm: int, reward: float) -> None:
         """
@@ -59,6 +65,7 @@ class EpsilonGreedyBandit:
         value = self.values[arm]
         new_value = value + (1 / n) * (reward - value)
         self.values[arm] = new_value
+        self.rewards_in_time.append(reward)
 
     def reset(self) -> None:
         """Reset the bandit to the initial state."""
@@ -88,3 +95,27 @@ class EpsilonGreedyBandit:
             Array with the number of times each arm has been selected.
         """
         return self.counts
+
+    @property
+    def rewards_arm(self) -> list[float]:
+        """
+        Rewards obtained for each arm in time.
+
+        Returns
+        -------
+        list[float]
+            Array with the rewards obtained in each time step.
+        """
+        return self.rewards_in_time
+
+    @property
+    def selected_arms(self) -> list[int]:
+        """
+        Arm selected in each time step.
+
+        Returns
+        -------
+        list[int]
+            List with the arm selected in each time step.
+        """
+        return self.arm_in_time
