@@ -15,6 +15,7 @@
 \usepackage{lipsum}
 \usepackage{listings}
 \usepackage{algorithm,algpseudocode}
+\usepackage{hyperref}
 \captionsetup{compatibility=false}
 
 %%%%%%%%%%%%%%%%%%%%%%
@@ -181,7 +182,8 @@
 
     \indent\underline{Solución:}
 
-    El algoritmo bandit $\varepsilon-greedy$ consiste en los siguientes pasos:
+    El algoritmo bandit $\varepsilon-greedy$ consiste en los siguientes pasos\footnotemark:
+    \footnote{La implementación del algoritmo se realizó en Python utilizando la librería \textit{numpy} para el cálculo de las recompensas y se encuentra disponible en el repositorio de \href{https://google.com}{GitHub}.}
 
     \begin{algorithm}[H]
         \caption{Algoritmo $\varepsilon-greedy$ para el problema de Multi-Armed Bandit}
@@ -209,7 +211,6 @@
     $Q(A)$: Valor estimado de la acción $A$ \\
     $N(A)$: Número de veces que se ha seleccionado la acción $A$ \\
     $bandit(A)$: Función que devuelve la recompensa de la acción $A$ \\
-    $R$: Recompensa obtenida \\
 
     Sean las constantes, \\
     $k = 10$: Número de brazos \\
@@ -278,7 +279,9 @@
         \label{fig:estimations}
     \end{figure}
 
-    Las figuras~\ref{fig:estimations_0},~\ref{fig:estimations_1} y~\ref{fig:estimations_2} muestran que el Q-valor es cero para todas las acciones, aunque aumente el valor de $\varepsilon$ ya que las recompensas son cero para todos los brazos y por lo tanto, determinístico.
+    Las figuras~\ref{fig:estimations_0},~\ref{fig:estimations_1} y~\ref{fig:estimations_2} muestran que el Q-valor toma valores cercanos al cero para las acciones en las que $\varepsilon = 0$.
+    Esto se debe a que el algoritmo no explora y por lo tanto, no actualiza los valores de las acciones.
+    Por otro lado, para $\varepsilon = 0.01$ y $\varepsilon = 0.10$, el algoritmo explora y actualiza los valores de las acciones, lo que permite obtener recompensas mayores.
 
     La Figura~\ref{fig:arms_selected} muestra el número de veces que se seleccionó cada brazo para los distintos valores de $\varepsilon$ y $\sigma$.
 
