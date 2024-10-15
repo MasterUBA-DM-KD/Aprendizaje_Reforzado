@@ -26,7 +26,7 @@
 \fancyhead[RO,R]{}
 \fancyfoot[LO,L]{}
 \fancyfoot[CO,C]{\thepage}
-\fancyfoot[RO,R]{\today}
+%\fancyfoot[RO,R]{\today}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0.4pt}
 
@@ -36,6 +36,9 @@
 \renewcommand{\indent}{\hspace*{\tindent}}
 \DeclareMathOperator*{\argmax}{argmax}
 \floatname{algorithm}{Algoritmo}
+
+\decimalpoint
+\bibliographystyle{ieeetr}
 %%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
@@ -171,7 +174,7 @@
     $k = 4$: Número de acciones \\
     $Q_{1}(a) = 0\ \forall a$: Valor inicial de cada acción \\
 
-    La secuencia de acciones y recompensas se muestra en la siguiente tabla:
+    La secuencia de acciones y recompensas~\cite{kubat2015introduction} se muestra en la siguiente tabla:
 
     \begin{table}[H]
         \centering
@@ -241,7 +244,7 @@
     \footnotetext{La implementación del algoritmo se realizó en Python utilizando la librería \textit{numpy} para el cálculo de las recompensas y se encuentra disponible en el repositorio de \href{https://github.com/MasterUBA-DM-KD/Aprendizaje_Reforzado/blob/4993e3466d1afb2b2c57489c20714a0b8106d984/docs/guia/1/notebooks/armed_bandits.py}{GitHub}.}
 
     \begin{algorithm}[H]
-        \caption{Algoritmo $\varepsilon-greedy$ para el problema de Multi-Armed Bandit}
+        \caption[Algoritmo $\varepsilon-greedy$ para el problema de Multi-Armed Bandit]{Algoritmo $\varepsilon-greedy$ para el problema de Multi-Armed Bandit~\cite{UnityRL}}
         \begin{algorithmic}[1]
             \State \textbf{Inicializar:} para $a = 1$ hasta $k$:
             \State \quad $Q(a) \leftarrow 0$ \quad // Valor estimado de la acción $a$
@@ -304,28 +307,86 @@
             \caption{$\sigma=10$}
             \label{fig:rewards_10}
         \end{subfigure}
-        \caption{Recompensa para cada brazo}
+        \caption[Recompensa para cada brazo]{Recompensa para cada brazo\footnotemark}
         \label{fig:rewards}
     \end{figure}
 
+    \footnotetext{Notar que la numeración de los brazos comienza en $0$.}
+
     Se aplicó el algoritmo $\varepsilon-greedy$ con distintas combinaciones de $\varepsilon$ y $\sigma$.
+    La Figura~\ref{fig:arms_selected} muestra el número de veces que se seleccionó cada brazo para los distintos valores de $\varepsilon$ y $\sigma$.
+
+    \begin{figure}[H]
+        \centering
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/2000/arm_sigma_0_epsilon_0}
+            \caption{$\sigma=0 ,\ \varepsilon=0$}
+            \label{fig:arms_selected_0_0}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/2000/arm_sigma_0_epsilon_0.01}
+            \caption{$\sigma=0 ,\ \varepsilon=0.01$}
+            \label{fig:arms_selected_0_0.01}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/2000/arm_sigma_0_epsilon_0.1}
+            \caption{$\sigma=0 ,\ \varepsilon=0.10$}
+            \label{fig:arms_selected_0_0.1}
+        \end{subfigure}
+
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/2000/arm_sigma_1_epsilon_0}
+            \caption{$\sigma=1 ,\ \varepsilon=0$}
+            \label{fig:arms_selected_1_0}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/2000/arm_sigma_1_epsilon_0.01}
+            \caption{$\sigma=1 ,\ \varepsilon=0.01$}
+            \label{fig:arms_selected_1_0.01}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/2000/arm_sigma_1_epsilon_0.1}
+            \caption{$\sigma=1 ,\ \varepsilon=0.10$}
+            \label{fig:arms_selected_1_0.1}
+        \end{subfigure}
+
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/2000/arm_sigma_10_epsilon_0}
+            \caption{$\sigma=10 ,\ \varepsilon=0$}
+            \label{fig:arms_selected_10_0}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/2000/arm_sigma_10_epsilon_0.01}
+            \caption{$\sigma=10 ,\ \varepsilon=0.01$}
+            \label{fig:arms_selected_10_0.01}
+        \end{subfigure}
+        \begin{subfigure}[H]{0.3\textwidth}
+            \includegraphics[width=\textwidth]{../img/2000/arm_sigma_10_epsilon_0.1}
+            \caption{$\sigma=10 ,\ \varepsilon=0.10$}
+            \label{fig:arms_selected_10_0.1}
+        \end{subfigure}
+
+        \caption{Número de veces que se seleccionó cada brazo, para $\varepsilon \in \left\{ 0, 0.01, 0.10 \right\}$ y $\sigma \in \left\{ 0, 1, 10 \right\}$}
+        \label{fig:arms_selected}
+    \end{figure}
+
     Los resultados de los \textit{Q-valor} de las acciones se muestran en la Figura~\ref{fig:estimations}.
 
     \begin{figure}[H]
         \centering
 
         \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_0}
+            \includegraphics[width=\textwidth]{../img/2000/values_sigma_0}
             \caption{$\sigma=0$}
             \label{fig:estimations_0}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_1}
+            \includegraphics[width=\textwidth]{../img/2000/values_sigma_1}
             \caption{$\sigma=1$}
             \label{fig:estimations_1}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/values_sigma_10}
+            \includegraphics[width=\textwidth]{../img/2000/values_sigma_10}
             \caption{$\sigma=10$}
             \label{fig:estimations_2}
         \end{subfigure}
@@ -334,79 +395,23 @@
         \label{fig:estimations}
     \end{figure}
 
-    La Figura~\ref{fig:arms_selected} muestra el número de veces que se seleccionó cada brazo para los distintos valores de $\varepsilon$ y $\sigma$.
-
-    \begin{figure}[H]
-        \centering
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/arm_sigma_0_epsilon_0}
-            \caption{$\sigma=0 ,\ \varepsilon=0$}
-            \label{fig:arms_selected_0_0}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/arm_sigma_0_epsilon_0.01}
-            \caption{$\sigma=0 ,\ \varepsilon=0.01$}
-            \label{fig:arms_selected_0_0.01}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/arm_sigma_0_epsilon_0.1}
-            \caption{$\sigma=0 ,\ \varepsilon=0.10$}
-            \label{fig:arms_selected_0_0.1}
-        \end{subfigure}
-
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/arm_sigma_1_epsilon_0}
-            \caption{$\sigma=1 ,\ \varepsilon=0$}
-            \label{fig:arms_selected_1_0}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/arm_sigma_1_epsilon_0.01}
-            \caption{$\sigma=1 ,\ \varepsilon=0.01$}
-            \label{fig:arms_selected_1_0.01}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/arm_sigma_1_epsilon_0.1}
-            \caption{$\sigma=1 ,\ \varepsilon=0.10$}
-            \label{fig:arms_selected_1_0.1}
-        \end{subfigure}
-
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/arm_sigma_10_epsilon_0}
-            \caption{$\sigma=10 ,\ \varepsilon=0$}
-            \label{fig:arms_selected_10_0}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/arm_sigma_10_epsilon_0.01}
-            \caption{$\sigma=10 ,\ \varepsilon=0.01$}
-            \label{fig:arms_selected_10_0.01}
-        \end{subfigure}
-        \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/arm_sigma_10_epsilon_0.1}
-            \caption{$\sigma=10 ,\ \varepsilon=0.10$}
-            \label{fig:arms_selected_10_0.1}
-        \end{subfigure}
-
-        \caption{Número de veces que se seleccionó cada brazo}
-        \label{fig:arms_selected}
-    \end{figure}
-
-    Finalmente, se analizó la recompensa promedio obtenida en función del número de iteraciones para los distintos valores de $\varepsilon$ y $\sigma$.
+    Finalmente, se analizó la recompensa promedio obtenida en función del número de iteraciones para los distintos valores de $\varepsilon$ y $\sigma$, cuando $n \rightarrow \infty$.
     Los resultados se muestran en la Figura~\ref{fig:average_reward}.
 
     \begin{figure}[H]
         \centering
         \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/reward_iteration_sigma_0}
+            \includegraphics[width=\textwidth]{../img/20000/reward_iteration_sigma_0}
             \caption{$\sigma=0$}
             \label{fig:average_reward_0}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/reward_iteration_sigma_1}
+            \includegraphics[width=\textwidth]{../img/20000/reward_iteration_sigma_1}
             \caption{$\sigma=1$}
             \label{fig:average_reward_1}
         \end{subfigure}
         \begin{subfigure}[H]{0.3\textwidth}
-            \includegraphics[width=\textwidth]{../img/reward_iteration_sigma_10}
+            \includegraphics[width=\textwidth]{../img/20000/reward_iteration_sigma_10}
             \caption{$\sigma=10$}
             \label{fig:average_reward_10}
         \end{subfigure}
@@ -414,41 +419,96 @@
         \label{fig:average_reward}
     \end{figure}
 
+%        El efecto de $\sigma$ en el desempeño del algoritmo se aprecia en las Figuras~\ref{fig:average_reward_0},~\ref{fig:average_reward_1} y~\ref{fig:average_reward_10}.
+%
+%    De la Figura~\ref{fig:rewards_0}, $\sigma=0$, se aprecia que el brazo con mayor recompensa es el brazo $3$, seguido por los brazos $4$ y $0$.
+%
+%    De la Figura~\ref{fig:rewards_1}, $\sigma=1$, se observa que el brazo con mayor recompensa es el brazo $1$, seguido por los brazos $3$ y $6$.
+%
+%    De la Figura~\ref{fig:rewards_10}, $\sigma=10$, se evidencia que el brazo con mayor recompensa es el brazo $7$, seguido por los brazos $8$ y $9$.
+%
+%    En el caso de $\varepsilon=0$, el algoritmo se comporta como un método de explotación pura, eligiendo siempre el brazo número $0$, hecho que se puede apreciar en las Figuras~\ref{fig:arms_selected_0_0},~\ref{fig:arms_selected_1_0} y~\ref{fig:arms_selected_10_0}, siendo el brazo en cuestión el más seleccionado en todos los casos.
+%
+%    Hecho que también puede apreciarse, para $\varepsilon=0$, en las Figuras~\ref{fig:estimations_0},~\ref{fig:estimations_1} y~\ref{fig:estimations_2}, donde el valor estimado de la recompensa converge rápidamente a un valor que no es el óptimo.
+%
+%    En las Figuras~\ref{fig:estimations_0},~\ref{fig:estimations_1} y~\ref{fig:estimations_2} se puede apreciar que el valor estimado de la recompensa para $\varepsilon=0.10$ converge más rápido a un valor constante.
+%    Por otro lado, el valor estimado de la recompensa para $\varepsilon=0.01$ aumenta lentamente comparado con $\varepsilon=0.10$ y en el proceso se encuentra escalones en los que se realiza la explotación de la mejor acción, hasta el momento.
+%    Una vez superada la etapa de explotación se procede a explorar otras acciones y su valor estimado de la recompensa aumenta, aún superando a $\varepsilon=0.10$.
+%    Si bien $\varepsilon=0.01$, al inicio, no explora tanto como $\varepsilon=0.10$, a medida que $n$ aumenta, el valor estimado de la recompensa supera a $\varepsilon=0.10$.
+%    Si bien a $\varepsilon=0.01$ le toma un número significativo de iteraciones superar a $\varepsilon=0.10$, puede ser una mejor elección a largo plazo y $\varepsilo=0.10$ puede ser una mejor elección a corto plazo.
+%
+%     En las Figuras~\ref{fig:estimations_0},~\ref{fig:estimations_1} y~\ref{fig:estimations_2} se aprecia como al aumentar el valor de $\sigma \in \left\{ 0, 1, 10 \right\}$, la brecha entre el valor estimado para $\varepsilon=0.0$ y $\varepsilon in \left\{ 0.01, 0.10 \right\}$ se amplía.
+%
+%    \textbf{$\varepsilon=0.01$ y $\varepsilon=0.10$}: Se observó una mejora en la exploración de acciones no elegidas previamente lo que permitió al algoritmo encontrar mejores acciones a largo plazo.
+%    Un mayor valor de $\varepsilon=0.10$ permitió una exploración más agresiva, lo que resultó en un rendimiento más equilibrado.
+%
+%
+%    A medida que el desvío estándar $\sigma$ aumenta, la recompensa promedio obtenida disminuye.
+%    Esto se debe a que las recompensas son más inciertas y, por lo tanto, es más difícil para el algoritmo encontrar la acción óptima.
+%
+%    \textbf{Exploración vs. Explotación}: La elección de $\varepsilon$ afecta la exploración y explotación del algoritmo.
+%    Un valor de $\varepsilon=0$ resulta en una estrategia de explotación pura, mientras que un valor de $\varepsilon=0.10$ resulta en una estrategia de exploración más agresiva.
+%    Un valor intermedio de $\varepsilon=0.01$ permite un balance entre exploración y explotación.
+%
+%    \textbf{Optimización de $\varepsilon$}: La elección de $\varepsilon$ depende de la naturaleza del problema y de la importancia de la exploración y explotación.
+%    \textbf{Optimización de $\sigma$}: La elección de $\sigma$ depende de la incertidumbre de las recompensas y de la importancia de la precisión en la estimación de los valores de las acciones.
+%    \textbf{Balance entre exploración y explotación}: En general, es importante encontrar un balance entre la exploración y la explotación para maximizar la recompensa promedio obtenida.
+%
+%    La distribución de los valores de las recompensas en las Figuras~\ref{fig:rewards_0},~\ref{fig:rewards_1} y~\ref{fig:rewards_10} muestra que $\varepsilon=0.0$ no explora nuevas acciones, lo que resulta en una convergencia rápida a un valor subóptimo, cercano a cero.
+%
+%    Según las Figuras~\ref{fig:rewards_0},~\ref{fig:rewards_1} y~\ref{fig:rewards_10}, para $\varepsilon=0.0$ el gráfico es estrecho, lo que sugiere que los valores-Q tienen poca variación.
+%    Esto significa que el algoritmo mayormente explota la mejor acción conocida sin explorar otras opciones.
+%
+%    Para $\varepsilon=0.01$ La distribución se ensancha, indicando una mayor variabilidad en los valores-Q debido a un pequeño incremento en la exploración.
+%
+%    Para $\varepsilon=0.10$ el gráfico más ancho muestra una distribución aún mayor de valores-Q, lo que indica una exploración más frecuente de diferentes acciones.
+
     \underline{\textbf{Conclusiones}}\\
-    \textbf{Efecto de $\varepsilon$}:\\
+
+    \paragraph{Efecto de $\sigma$}:
+    El desempeño del algoritmo \textit{k-armed bandits} varía en función del desvío estándar $\sigma$, como se observa en las Figuras~\ref{fig:average_reward_0},~\ref{fig:average_reward_1} y~\ref{fig:average_reward_10}.
+    A medida que $\sigma$ aumenta, la recompensa estimada aumenta.
+    En particular:
 
     \begin{itemize}
-        \item \textbf{$\varepsilon=0$}: El algoritmo se comporta como un método de explotación pura, eligiendo siempre la acción con la mejor recompensa estimada.
-        Esto puede llevar a un rendimiento subóptimo si la estimación inicial es incorrecta.
-        \item \textbf{$\varepsilon=0.01$ y $\varepsilon=0.10$}: Se observó una mejora en la exploración de acciones no elegidas previamente, lo que permitió al algoritmo encontrar mejores acciones a largo plazo.
-        Un mayor valor de ε (como 0.10) permitió una exploración más agresiva, lo que resultó en un rendimiento más equilibrado.
-        ε (como 0.10) permitió una exploración más agresiva, lo que resultó en un rendimiento más equilibrado.
-
-%    Fomenta que el algoritmo explore más y no explota las acciones que han demostrado ser más prometedoras.
-%    En todos los casos, según la Figura~\ref{fig:average_reward}, $\varepsilon=0.01$ obtiene la mayor recompensa cuando $n \rightarrow \infty$.
-%    Para el caso de $\varepsilon=0.0$ y $\varepsilon=0.10$, la recompensa promedio se mantuvo constante y no se observó una mejora significativa en la recompensa promedio obtenida cuando $n \rightarrow \infty$, a diferencia de $\varepsilon=0.01$ cuyas recompensas crecen más despacio al inicio, pero supera a las otras dos opciones a medida que $n$ aumenta.
-
-    \textbf{Efecto de $\sigma$}: A medida que el desvío estándar $\sigma$ aumenta, la recompensa promedio obtenida disminuye.
-    Esto se debe a que las recompensas son más inciertas y, por lo tanto, es más difícil para el algoritmo encontrar la acción óptima.
-
-    \textbf{Interacción entre $\varepsilon$ y $\sigma$}: Para $\sigma=0$, el algoritmo converge rápidamente a la acción óptima, independientemente de $\varepsilon$.
-    Sin embargo, para $\sigma=1$ y $\sigma=10$, el algoritmo converge más lentamente y la elección de $\varepsilon$ puede afectar significativamente la recompensa promedio obtenida.
-
-    \textbf{Exploración vs. Explotación}: La elección de $\varepsilon$ afecta la exploración y explotación del algoritmo.
-
-    \textbf{Desempeño del algoritmo}: El desempeño del algoritmo depende de la interacción entre $\varepsilon$ y $\sigma$.
-
-    \begin{itemize}
-
-        \item
-
-        \item
-        \item
-        \item
-        \item \textbf{Optimización de $\varepsilon$}: La elección de $\varepsilon$ depende de la naturaleza del problema y de la importancia de la exploración y explotación.
-        \item \textbf{Optimización de $\sigma$}: La elección de $\sigma$ depende de la incertidumbre de las recompensas y de la importancia de la precisión en la estimación de los valores de las acciones.
-        \item \textbf{Balance entre exploración y explotación}: En general, es importante encontrar un balance entre la exploración y la explotación para maximizar la recompensa promedio obtenida.
+        \item Para $\sigma = 0$ (Figura~\ref{fig:arms_selected_0_0}), el brazo con mayor recompensa es el brazo 3, seguido de los brazos 4 y 0.
+        \item Para $\sigma = 1$ (Figura~\ref{fig:arms_selected_1_0}), el brazo con mayor recompensa es el brazo 1, seguido de los brazos 3 y 6.
+        \item Para $\sigma = 10$ (Figura~\ref{fig:arms_selected_10_0}), el brazo con mayor recompensa es el brazo 7, seguido de los brazos 8 y 9.
     \end{itemize}
+
+    Al aumentar $\sigma$, Figuras~\ref{fig:average_reward_0},~\ref{fig:average_reward_1},~\ref{fig:average_reward_10}, la brecha entre los valores estimados de la recompensa para $\varepsilon = 0.0$ y $\varepsilon \in \{0.01, 0.10\}$ se amplía, lo que indica que la exploración impacta directamente en el valor estimado de la recompensa, siendo $\varepsilon=0.0$ aquella que converge a un valor subóptimo más rápidamente, mientras que $\varepsilon \in \{0.01, 0.10\}$ logran una mejor estimación de la recompensa a largo plazo.
+
+    La variable/parámetro $\sigma$ no puede ser optimizada en la vida real, da cuenta de la variabilidad que pueda existir en las recompensas y puede ser desconocida.
+
+    \paragraph{Exploración vs. Explotación (i.e., $\varepsilon$)}:
+    La elección de $\varepsilon$ afecta el balance entre la exploración y la explotación del algoritmo \textit{k-armed bandits}.
+
+    \begin{itemize}
+        \item Para $\varepsilon = 0$, el algoritmo se comporta como un método de explotación pura, seleccionando siempre la misma acción, como se observa en las Figuras~\ref{fig:arms_selected_0_0},~\ref{fig:arms_selected_1_0} y~\ref{fig:arms_selected_10_0}.
+         Esto resulta en una rápida convergencia a un valor subóptimo (Figuras~\ref{fig:average_reward_0},~\ref{fig:average_reward_1} y~\ref{fig:average_reward_10}).
+
+        \item Para $\varepsilon = 0.01$, se observa un balance entre exploración y explotación, con una variabilidad moderada en los \textit{Q-valores}.
+        La recompensa estimada crece lentamente, pero a largo plazo supera la obtenida con $\varepsilon = 0.10$, Figuras~\ref{fig:average_reward_0},~\ref{fig:average_reward_1} y~\ref{fig:average_reward_10}.
+        Además se observa la presencia de escalones en los que se realiza la explotación de la mejor acción, hasta el momento.
+        Como se aprecia en las Figuras~\ref{fig:arms_selected_0_0.01},~\ref{fig:arms_selected_1_0.01} y ~\ref{fig:arms_selected_1_0.01}, se realiza la explotación de brazos con recompensas bajas antes de explorar otras opciones que puedan tener una recompensa mayor.
+
+        \item Para $\varepsilon = 0.10$, el algoritmo realiza una exploración más agresiva, con una mayor variabilidad en los \textit{Q-valores}, convergiendo rápidamente a un valor constante como se aprecia en las Figuras~\ref{fig:average_reward_0},~\ref{fig:average_reward_1} y~\ref{fig:average_reward_10}.
+        Como se mencionó, la exploración se realiza de manera más agresiva, por lo que se aprecia la exploración de todas las acciones, Figuras~\ref{fig:arms_selected_0_0.1},~\ref{fig:arms_selected_1_0.1} y~\ref{fig:arms_selected_10_0.1}, eventualmente explorando la mejor acción a largo plazo.
+    \end{itemize}
+
+    Al comparar los resultados obtenidos con $\varepsilon = 0.01$ y $\varepsilon = 0.10$, se puede concluir que un mayor valor de $\varepsilon$ (e.g.,$\varepsilon = 0.10$) permite una exploración más agresiva, resultando en una mayor recompensa en el corto plazo.
+    Por otro lado, $\varepsilon = 0.01$ ofrece saltos que dan cuenta del balance entre exploración y explotación, lo que resulta en una recompensa promedio más alta a largo plazo.
+    Aunque al principio explora menos, a largo plazo logra una mejor estimación de la recompensa, como se muestra en las  Figuras~\ref{fig:average_reward_0},~\ref{fig:average_reward_1} y~\ref{fig:average_reward_10}.
+
+    \textbf{Distribución de \textit{Q-valores}}:
+
+    \begin{itemize}
+        \item Para $\varepsilon = 0.0$ (Figura~\ref{fig:estimations_0}), la distribución de los \textit{Q-valores} es estrecha, lo que refleja poca variabilidad y una tendencia a explotar la mejor acción conocida.
+        \item Para $\varepsilon = 0.01$ (Figura~\ref{fig:estimations_1}), la distribución se ensancha, indicando una mayor exploración.
+        \item Para $\varepsilon = 0.10$ (Figura~\ref{fig:estimations_2}), la distribución de los \textit{Q-valores} es aún más amplia, lo que sugiere una exploración más frecuente de diferentes acciones.
+    \end{itemize}
+
+    Lo anterior coincide con las conclusiones relacionadas al balance entre exploración y explotación.
 
     \line(1,0){\textwidth}
 
@@ -571,7 +631,7 @@
     \line(1,0){\textwidth}
 
     \indent\underline{\textbf{Ejercicio 8}}\\
-    En la \textit{Figura 2.3} del libro \textit{Sutton\&Barto (2018)}, se observa un \textit{spike} en el paso número 11 cuando se utiliza inicialización optimista.
+    En la \textit{Figura 2.3} del libro \textit{Sutton\&Barto (2018)}~\cite{Sutton2018}, se observa un \textit{spike} en el paso número 11 cuando se utiliza inicialización optimista.
     De una explicación de este fenómeno.
 
     \begin{figure}[H]
@@ -664,7 +724,7 @@
     \]
 
     \indent\underline{\textbf{Solución}}\\
-    Se calcula la derivada cuando $a=b$
+    Se calcula la derivada cuando $a=b$,
 
     \[
         \frac{\partial p(a)}{\partial H(a)} = \frac{\partial}{\partial H(a)} \left( \frac{e^{H(a)}}{\sum_{a'=1}^{K} e^{H(a')}} \right)
@@ -724,7 +784,7 @@
         &= -p(b)p(x)
     \end{align*}
 
-    Se concluye que las derivadas de la función SOFTMAX $p(x)$ respecto de sus parámetros $H(a),\ a=1,2,\dots,K$, son iguales a:
+    Se concluye que las derivadas de la función SOFTMAX $p(x)$~\cite{Sutton2018} respecto de sus parámetros $H(a),\ a=1,2,\dots,K$, son iguales a:
 
     \[
         \frac{\partial p(x)}{\partial H(a)} =
@@ -793,7 +853,7 @@
 
     Lo anterior es válido para $R=q_{*}(A)$, es decir, la recompensa esperada es igual a la recompensa óptima.
 
-    Por lo tanto, tras remplazar en la regla de actualización por gradiente ascendente estocástico, se obtiene
+    Por lo tanto, tras remplazar en la regla de actualización por gradiente ascendente estocástico~\cite{Sutton2018}, se obtiene
 
     \[
         H_{t+1}(a) =
@@ -806,12 +866,6 @@
 
     \line(1,0){\textwidth}
 
-%    \paragraph{Referencias}\label{par:references}
-%    \lipsum[5]
-%
-%    \paragraph{Apéndice}\label{par:appendix}
-%
-%    \lipsum[5]
-
+    \bibliography{references}
 
 \end{document}
