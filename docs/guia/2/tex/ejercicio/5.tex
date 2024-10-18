@@ -1,0 +1,47 @@
+\indent\underline{\textbf{Ejercicio 5}}\\
+Demostrar que si $\gamma = 0$ y $R_t = R(S_t)$ (la recompensa depende del estado), entonces
+
+\[
+    v(s) = \sum_{s' \in S} p(S_{t+1} = s' | S_t = s) R(S_{t+1})
+\]
+
+\indent\underline{\textbf{Solución}}\\
+Sea,\\
+$v(s)$: Valor esperado del retorno a partir del estado $s$.\\
+$R(S_t)$: Recompensa en el estado $S_t$.\\
+$G_t$: Retorno a partir del tiempo $t$ y $S_t = s$.
+
+Por definición, el valor esperado del retorno a partir del estado $s$ es,
+
+\[
+    v(s) = E[G_t | S_t = s]
+\]
+
+Donde, $G_t$ está dado por,
+
+\[
+    G_t = R_t + \gamma R(_{t+1} + \gamma^2 R_{t+2} + \ldots
+\]
+
+Si $\gamma = 0$ y $R_t = R(S_t)$, entonces el agente no considera el futuro y la recompensa depende del estado actual.
+Por lo tanto, el retorno $G_t$ se reduce a,
+
+\[
+    G_t = R_t = R(S_t)
+\]
+
+Por otro lado, $v(s)$ se puede expresar en términos del siguiente estado $S_{t+1}$ y la recompensa $R(S_{t+1})$ como,
+
+\[
+    v(s) = E[G_t | S_t = s] = E[R(S_{t+1}) | S_t = s]
+\]
+
+Por lo tanto, el valor esperado del retorno a partir del estado $s$ es la suma de las recompensas esperadas en el siguiente estado ponderadas por la probabilidad de transición al siguiente estado, es decir,
+
+\[
+    v(s) = \sum_{s' \in S} p(S_{t+1} = s' | S_t = s) R(S_{t+1})
+\]
+
+En otras palabras, el valor de un estado es la expectativa de la recompensa inmediata en el siguiente estado ponderada por la probabilidad de transición al siguiente estado.
+
+\line(1,0){\textwidth}

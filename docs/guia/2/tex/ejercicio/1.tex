@@ -1,0 +1,67 @@
+\indent\underline{\textbf{Ejercicio 1}}\\
+Para un proceso de Markov donde \( p_{ss'} = P[S_{t+1} = s' \mid S_t = s] \) son las probabilidades de transición, demostrar que la probabilidad de un episodio se puede escribir como el producto de las probabilidades de transición y la condición inicial, es decir:
+
+\[
+    P[S_0 = s_0, S_1 = s_1, \ldots, S_t = s_t, S_{t+1} = s_{t+1}] = p_{s_t s_{(t+1)}} p_{s_{(t-1)} s_t} \cdots p_{s_1 s_2} p_{s_0 s_1} p_{s_0},
+\]
+
+donde \( s_n \in S \) y \( p_{s_0} P[S_0 = s_0] \).
+
+\indent\underline{\textbf{Solución}}\\
+
+Sea,\\
+S: Secuencia de estados\\
+
+Se aplica la regla de la cadena para la probabilidad de una secuencia de eventos, para un proceso de Markov,
+
+\begin{align*}
+    P[S_0 = s_0, S_1 = s_1, \ldots, S_{t+1} = s_{t+1}] &= P[S_{t+1} =s_{t+1}, S_t = s_t, \ldots, S_0 = s_0]\\
+    &= P[S_{t+1} = s_{t+1} \mid S_t = s_t, S_{t-1} = s_{t-1}, S_0 = s_0] \ P[S_t = s_t, \ldots, S_0 = s_0]
+\end{align*}
+
+Por la propiedad de Markov, la probabilidad de transición de un estado a otro depende solo del estado actual, por lo que la probabilidad de transición de un estado a otro depende solo del estado actual, matemáticamente se expresa como,
+
+\begin{align*}
+    P[S_{t+1} = s_{t+1} \mid S_t = s_t, S_{t-1} = s_{t-1}, \ldots, S_0 = s_0] &= P[S_{t+1} = s_{t+1} \mid S_t = s_t]\\
+    &= p_{s_t s_{t+1}}
+\end{align*}
+
+Por lo tanto, la probabilidad de una secuencia de eventos se puede escribir como,
+
+\[
+    P[S_0 = s_0, S_1 = s_1, \ldots, S_t = s_t, S_{t+1} = s_{t+1}] = P[S_{t+1} \mid S_t = s_t] \ P[S_t = s_t, \ldots, S_0 = s_0]
+\]
+
+Se aplica recursivamente la regla de la cadena para obtener la probabilidad conjunta en términos de las probabilidades de transición,
+
+\[
+    P[S_0 = s_0, S_1 = s_1, \ldots, S_t = s_t, S_{t+1} = s_{t+1}] = p_{s_t s_{t+1}} \ P[S_t = s_t, \ldots, S_0 = s_0]
+\]
+
+Se aplica de nuevo la regla de la cadena para obtener la probabilidad conjunta en términos de las probabilidades de transición,
+
+\[
+    P[S_t = s_t, S_{t-1} = s_{t-1}, \dots, S_0 = s_0] = p_{s_{t-1} s_{t}} \ P[S_{t-1} = s_{t-1}, \ldots, S_0 = s_0]
+\]
+
+Tras aplicar la propiedad de Markov se llegó a que,
+
+\[
+    P[S_1 = s_1, S_0 = s_0] = p_{s_0 s_1} \ P[S_0 = s_0]
+\]
+
+La probabilidad conjunta de la secuencia completa de estados es,
+
+\[
+    P[S_0 = s_0, S_1 = s_1, \ldots, S_t = s_t, S_{t+1} = s_{t+1}] = p_{s_t s_{t+1}} \ p_{s_{t-1} s_t} \cdots p_{s_1 s_2} \ p_{s_0 s_1} \ p_{s_0} P[S_0 = s_0]
+\]
+
+Si se define \( p_{s_0} = P[S_0 = s_0] \), la expresión se simplifica a,
+
+\[
+    P[S_0 = s_0, S_1 = s_1, \ldots, S_t = s_t, S_{t+1} = s_{t+1}] = p_{s_t s_{t+1}} \ p_{s_{t-1} s_t} \cdots p_{s_1 s_2} \ p_{s_0 s_1} \ p_{s_0}
+\]
+
+Se concluye que la probabilidad de un episodio se puede escribir como el producto de las probabilidades de transición y la condición inicial $p_{s_0}$.
+
+\line(1,0){\textwidth}

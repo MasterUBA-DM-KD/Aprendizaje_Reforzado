@@ -1,0 +1,42 @@
+\indent\underline{\textbf{Ejercicio 4}}\\
+Para el proceso de Recompensas Markoviano (MRP) de la figura \ref{fig:grafo_2}, el retorno $G_0$ de cada uno de los siguientes episodios con estado inicial C1 y $\gamma = 0.5$:
+
+\begin{enumerate}
+    \item C1 C2 C3 Pass Sleep
+    \item C1 FB FB C1 C2 Sleep
+    \item C1 C2 C3 Pub C2 C3 Pass Sleep
+    \item C1 FB FB C1 C2 C3 Pub C1 FB FB FB C1 C2 C3 Pub C2 Sleep
+\end{enumerate}
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+      % Nodes
+      \node[circle, draw] (facebook) {Facebook};
+      \node[circle, draw, below=of facebook] (class1) {Class 1};
+      \node[circle, draw, right=of class1] (class2) {Class 2};
+      \node[circle, draw, right=of class2] (class3) {Class 3};
+      \node[circle, draw, right=of class3] (pass) {Pass};
+      \node[circle, draw, below=of class2] (pub) {Pub};
+      \node[rectangle, draw, above=of class2] (sleep) {Sleep};
+
+      % Arrows
+      \path (facebook) edge[loop] node{0.9} (facebook)
+            (facebook) edge[bend right] node[xshift=-20]{0.1} (class1)
+            (class1) edge[bend right] node[align=center, xshift=40]{\textcolor{red}{\(R=-1\)} \\ 0.5} (facebook)
+            (class1) edge node[align=center, yshift=-15, xshift=-10]{0.5 \\ \textcolor{red}{\(R=-2\)}} (class2)
+            (class2) edge node{0.8} (class3)
+            (class2) edge node{0.2} (sleep)
+            (pub) edge node[below] {0.4} (class2)
+            (class3) edge node{0.6} (pass)
+            (class3) edge node[right] {0.4} (pub)
+            (pub) edge[bend left] node[above] {0.2} (class1)
+            (pub) edge[bend right] node[left] {0.4} (class3)
+            (pass) edge[bend right] node[right] {1.0} (sleep);
+    \end{tikzpicture}
+    \caption{Grafo de transición de estados}\label{fig:grafo_2}
+\end{figure}
+
+\indent\underline{\textbf{Solución}}\\
+
+\line(1,0){\textwidth}

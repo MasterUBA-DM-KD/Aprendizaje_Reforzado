@@ -1,0 +1,46 @@
+\indent\underline{\textbf{Ejercicio 3}}\\
+Demostrar que si la recompensa es constante $R_t = R \ \forall t$ y el factor de descuento $\gamma < 1$, entonces,
+
+\[
+    G_t = \frac{R}{1 - \gamma}
+\]
+
+\indent\underline{\textbf{Solución}}\\
+El retorno $G_t$ es la suma de las recompensas futuras descontadas a partir del tiempo $t$, es decir,
+
+\[
+    G_t = R_t + \gamma R_{t+1} + \gamma^2 R_{t+2} + \ldots
+\]
+
+Dado que la recompensa es constante, $R_t = R \ \forall t$, entonces, $R_{t+1}=R$, $R_{t+2}=R$, $\ldots$, por lo que,
+
+\[
+    G_t = R + \gamma R + \gamma^2 R + \gamma^3 R + \ldots
+\]
+
+Tras factorizar toma la forma,
+
+\[
+    G_t = R(1 + \gamma + \gamma^2 + \ldots)
+\]
+
+La serie geométrica $1 + \gamma + \gamma^2 + \ldots$  es infinita. Sin embargo, dado que $\gamma < 1$, la serie converge a,
+
+\[
+    \sum_{k=0}^{\infty} \gamma^k = \frac{1}{1 - \gamma}
+\]
+
+Por lo tanto,
+
+\[
+    1 + \gamma + \gamma^2 + \ldots = \frac{1}{1 - \gamma}
+\]
+
+Que al remplazar en la expresión de $G_t$ se obtiene,
+
+\begin{align*}
+    G_t &= R \left(  \frac{1}{1 - \gamma} \right) \\
+    G_t &= \frac{R}{1 - \gamma}
+\end{align*}
+
+\line(1,0){\textwidth}
