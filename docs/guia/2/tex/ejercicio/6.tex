@@ -1,7 +1,18 @@
 \indent\underline{\textbf{Ejercicio 6}}\\
-\lipsum[4]\\
+Demostrar la ecuación de \textit{Bellman} para MRPs con $N$ estados
+\[
+    v = r + \gamma Pv,
+\]
+donde $v \in \mathbb{R}^N$ es el vector de valores de estados, $r \in \mathbb{R}^N$ es el vector de recompensas medias partiendo
+de cada estado, $P \in \mathbb{R}^{N \times N} $ es la matriz de transiciones y $\gamma$ es el factor de descuento.
 
 \indent\underline{\textbf{Solución}}\\
+Sea,\\
+$v \in \mathbb{R}^N$: Vector de valores de estados.\\
+$r \in \mathbb{R}^N$: Vector de recompensas medias partiendo de cada estado.\\
+$P \in \mathbb{R}^{N \times N}$: Matriz de transiciones.\\
+$\gamma \in \left[0,1\right)$: Factor de descuento.
+
 
 
 \line(1,0){\textwidth}
