@@ -1,5 +1,5 @@
 \indent\underline{\textbf{Ejercicio 4}}\\
-Para el proceso de Recompensas Markoviano (MRP) de la figura \ref{fig:grafo_2}, el retorno $G_0$ de cada uno de los siguientes episodios con estado inicial C1 y $\gamma = 0.5$:
+Para el proceso de Recompensas Markoviano (MRP) de la figura~\ref{fig:grafo_2}, el retorno $G_0$ de cada uno de los siguientes episodios con estado inicial C1 y $\gamma = 0.5$:
 
 \begin{enumerate}
     \item C1 C2 C3 Pass Sleep
@@ -27,16 +27,65 @@ Para el proceso de Recompensas Markoviano (MRP) de la figura \ref{fig:grafo_2}, 
             (class1) edge node[align=center, yshift=-15, xshift=-10]{0.5 \\ \textcolor{red}{\(R=-2\)}} (class2)
             (class2) edge node[align=left,  yshift=-15, xshift=-10]{0.8 \\ \textcolor{red}{\(R=-2\)}} (class3)
             (class2) edge node[align=center, xshift=40, yshift=15]{\textcolor{red}{\(R=0\)} \\ 0.2} (sleep)
-            (pub) edge node[below] {0.4} (class2)
+            (pub) edge node[below, align=center,  yshift=-15, xshift=0] {0.4 \\ \\ \\ \textcolor{red}{\(R=+1\)}} (class2)
             (class3) edge node[align=center,  yshift=-15, xshift=-10]{0.6 \\ \textcolor{red}{\(R=-2\)}} (pass)
             (class3) edge node[right] {0.4} (pub)
             (pub) edge[bend left] node[above] {0.2} (class1)
             (pub) edge[bend right] node[left] {0.4} (class3)
-            (pass) edge[bend right] node[right] {1.0} (sleep);
+            (pass) edge[bend right] node[align=center,  yshift=-45, xshift=120] {1.0 \\ \\ \\ \textcolor{red}{\(R=+10\)}} (sleep);
     \end{tikzpicture}
     \caption{Grafo de transición de estados}\label{fig:grafo_2}
 \end{figure}
 
 \indent\underline{\textbf{Solución}}\\
+Sea,\\
+$\gamma \in [0,1]$: Factor de descuento. $\gamma = 0.5$
+$R_t \in \mathbb{R}$: Recompensa.\\
+$G_t$: Retorno, es la acumulación de recompensas desde el instante $t+1$.
+
+El retorno se calcula como la suma de las recompensas futuras descontadas a partir del tiempo $t$, es decir,
+
+\[
+    G_t = R_{t+1} + \gamma R_{t+2} + \gamma^2 R_{t+3} + \ldots
+\]
+
+
+\indent \textbf{Episodio 1:} C1 C2 C3 Pass Sleep\\
+Se calcula el retorno,
+
+\begin{align*}
+    G_0 &= -2 + 0.5(-2) + 0.5^2(10) + 0.5^3(0) \\
+    &= -2 - 1 + 2.5 + 0 \\
+    &= -0.5
+\end{align*}
+
+\indent \textbf{Episodio 2:} C1 FB FB C1 C2 Sleep\\
+Se calcula el retorno,
+
+\begin{align*}
+    G_0 &= -1 + 0.5(-1) + 0.5^2(-2) + 0.5^3(-2) + 0.5^4(0) \\
+    &= -1 - 0.5 - 0.5 - 0.25 + 0 \\
+    &= -2.25
+\end{align*}
+
+\indent \textbf{Episodio 3:} C1 C2 C3 Pub C2 C3 Pass Sleep\\
+Se calcula el retorno,
+
+\begin{align*}
+    G_0 &= -2 + 0.5(-2) + 0.5^2(1) + 0.5^3(-2) + 0.5^4(-2) + 0.5^5(10) + 0.5^7(0) \\
+    &= -2 - 1 + 0.25 - 0.25 - 0.125 + 0.3125 + 0 \\
+    &= -2.8125
+\end{align*}
+
+\indent \textbf{Episodio 4:} C1 FB FB C1 C2 C3 Pub C1 FB FB FB C1 C2 C3 Pub C2 Sleep\\
+Se calcula el retorno,
+
+\begin{align*}
+    G_0 &= -1 + 0.5(-1) + 0.5^2(-2) + 0.5^3(-2) + 0.5^4(-2) + 0.5^5(1) + 0.5^6(-2) + 0.5^7(-1) + \\
+    & \quad 0.5^8(-1) + 0.5^9(-1) + 0.5^{10}(-2)+ 0.5^{11}(-2) + 0.5^{12}(-2) + 0.5^{13}(1) + 0.5^{14}(-2) + 0.5^{15}(0) \\
+    &= -1 - 0.5 - 0.5 - 0.25 - 0.125 + 0.03125 - 0.03125 - 0.0078125 -0.0039063 - 0.0019531 - \\
+    & \quad 0.0019531 - 0.0009766 - 0.0004883	+ 0.0001221 - 0.0001221 + 0 \\
+    &= - 2.3921
+\end{align*}
 
 \line(1,0){\textwidth}

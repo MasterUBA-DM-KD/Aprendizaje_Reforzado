@@ -1,18 +1,50 @@
 \indent\underline{\textbf{Ejercicio 6}}\\
 Demostrar la ecuación de \textit{Bellman} para MRPs con $N$ estados
+
 \[
     v = r + \gamma Pv,
 \]
-donde $v \in \mathbb{R}^N$ es el vector de valores de estados, $r \in \mathbb{R}^N$ es el vector de recompensas medias partiendo
-de cada estado, $P \in \mathbb{R}^{N \times N} $ es la matriz de transiciones y $\gamma$ es el factor de descuento.
+
+donde $v \in \mathbb{R}^N$ es el vector de valores de estados, $r \in \mathbb{R}^N$ es el vector de recompensas medias partiendo de cada estado, $P \in \mathbb{R}^{N \times N} $ es la matriz de transiciones y $\gamma$ es el factor de descuento.
 
 \indent\underline{\textbf{Solución}}\\
 Sea,\\
 $v \in \mathbb{R}^N$: Vector de valores de estados.\\
 $r \in \mathbb{R}^N$: Vector de recompensas medias partiendo de cada estado.\\
 $P \in \mathbb{R}^{N \times N}$: Matriz de transiciones.\\
-$\gamma \in \left[0,1\right)$: Factor de descuento.
+$\gamma \in \left[0,1\right)$: Factor de descuento. \\
+$i$: Índice del estado.
 
+Partiendo de la ecuación de \textit{Bellman} para un estado $i$,
 
+\[
+    v_i = r_i + \gamma \sum_{j=1}^{N} P_{ij} v_j
+\]
+
+Es decir, el valor de un estado $i$ es la recompensa inmediata $r_i$ más el valor esperado de los estados siguientes ponderados por la probabilidad de transición desde $i$ a $j$, $P_{ij}$, siendo la matriz de transiciones, y descontados por el factor $\gamma$.
+El primer término se puede expresar en forma matricial como,
+
+\[
+    r
+\]
+
+El segundo término es la suma ponderada de los valores de los estados siguientes.
+
+\[
+    \gamma \sum_{j=1}^{N} P_{ij} v_j
+\]
+
+Es decir, el factor de descuento $\gamma$ resta valor a los estados futuros~\cite{Sutton2018}.
+Este término se puede expresar en forma matricial como,
+
+\[
+    \gamma Pv
+\]
+
+Al sumar ambos términos se obtiene la ecuación de \textit{Bellman} para MRPs con $N$ estados,
+
+\[
+    v = r + \gamma Pv
+\]
 
 \line(1,0){\textwidth}

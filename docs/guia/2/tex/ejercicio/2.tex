@@ -38,7 +38,97 @@ Para el proceso de Markov, de la figura~\ref{fig:grafo_1}, calcular la probabili
     \caption{Grafo de transición de estados}\label{fig:grafo_1}
 \end{figure}
 
-
 \indent\underline{\textbf{Solución}}\\
+
+\indent$C1 \rightarrow C2 \rightarrow C3 \rightarrow Pass \rightarrow Sleep$\\
+Se tienen las probabilidades de transición de un estado a otro:
+
+\begin{itemize}
+    \item $P(C1 \rightarrow C2) = 0.5$
+    \item $P(C2 \rightarrow C3) = 0.8$
+    \item $P(C3 \rightarrow Pass) = 0.6$
+    \item $P(Pass \rightarrow Sleep) = 1.0$
+\end{itemize}
+
+Por lo tanto, la probabilidad de que el proceso de Markov pase por los estados $C1 \rightarrow C2 \rightarrow C3 \rightarrow Pass \rightarrow Sleep$ es:
+
+\begin{align*}
+    P(C1 \rightarrow C2 \rightarrow C3 \rightarrow Pass \rightarrow Sleep) & = P(C1 \rightarrow C2) \cdot P(C2 \rightarrow C3) \cdot P(C3 \rightarrow Pass) \cdot P(Pass \rightarrow Sleep)\\
+    &= 0.5 \cdot 0.8 \cdot 0.6 \cdot 1.0\\
+    &= 0.24
+\end{align*}
+
+\indent$C1 \rightarrow FB \rightarrow FB \rightarrow C1 \rightarrow C2 \rightarrow Sleep$\\
+Se tienen las probabilidades de transición de un estado a otro:
+
+\begin{itemize}
+    \item $P(C1 \rightarrow FB) = 0.5$
+    \item $P(FB \rightarrow FB) = 0.9$
+    \item $P(FB \rightarrow C1) = 0.1$
+    \item $P(C1 \rightarrow C2) = 0.5$
+    \item $P(C2 \rightarrow Sleep) = 0.2$
+\end{itemize}
+
+Por lo tanto, la probabilidad de que el proceso de Markov pase por los estados $C1 \rightarrow FB \rightarrow FB \rightarrow C1 \rightarrow C2 \rightarrow Sleep$ es:
+
+\begin{align*}
+    P(C1 \rightarrow FB \rightarrow FB \rightarrow C1 \rightarrow C2 \rightarrow Sleep) & = P(C1 \rightarrow FB) \cdot P(FB \rightarrow FB) \cdot \ldots \\
+    &= 0.5 \cdot 0.9 \cdot 0.1 \cdot 0.5 \cdot 0.2\\
+    &= 0.0045
+\end{align*}
+
+\indent$C1 \rightarrow C2 \rightarrow C3 \rightarrow Pub \rightarrow C2 \rightarrow C3 \rightarrow Pass \rightarrow Sleep$\\
+Se tienen las probabilidades de transición de un estado a otro:
+
+\begin{itemize}
+    \item $P(C1 \rightarrow C2) = 0.5$
+    \item $P(C2 \rightarrow C3) = 0.8$
+    \item $P(C3 \rightarrow Pub) = 0.4$
+    \item $P(Pub \rightarrow C2) = 0.4$
+    \item $P(C2 \rightarrow C3) = 0.8$
+    \item $P(C3 \rightarrow Pass) = 0.6$
+    \item $P(Pass \rightarrow Sleep) = 1.0$
+\end{itemize}
+
+Por lo tanto, la probabilidad de que el proceso de Markov pase por los estados $C1 \rightarrow C2 \rightarrow C3 \rightarrow Pub \rightarrow C2 \rightarrow C3 \rightarrow Pass \rightarrow Sleep$ es:
+
+\begin{align*}
+    P(C1 \rightarrow C2 \rightarrow C3 \rightarrow Pub \rightarrow C2 \rightarrow C3 \rightarrow Pass \rightarrow Sleep) & = P(C1 \rightarrow C2) \cdot P(C2 \rightarrow C3) \cdot \ldots \\
+    &= 0.5 \cdot 0.8 \cdot 0.4 \cdot 0.4 \cdot 0.8 \cdot 0.6 \cdot 1.0\\
+    &= 0.03072
+\end{align*}
+
+\indent $C1 \rightarrow FB \rightarrow FB \rightarrow C1 \rightarrow C2 \rightarrow C3 \rightarrow Pub \rightarrow C1 \rightarrow FB \rightarrow FB \rightarrow FB \rightarrow C1 \rightarrow C2 \rightarrow C3 \rightarrow Pub \rightarrow C2 \rightarrow Sleep$\\
+
+Se tienen las probabilidades de transición de un estado a otro:
+
+\begin{itemize}
+    \item $P(C1 \rightarrow FB) = 0.5$
+    \item $P(FB \rightarrow FB) = 0.9$
+    \item $P(FB \rightarrow C1) = 0.1$
+    \item $P(C1 \rightarrow C2) = 0.5$
+    \item $P(C2 \rightarrow C3) = 0.8$
+    \item $P(C3 \rightarrow Pub) = 0.4$
+    \item $P(Pub \rightarrow C1) = 0.2$
+    \item $P(C1 \rightarrow FB) = 0.5$
+    \item $P(FB \rightarrow FB) = 0.9$
+    \item $P(FB \rightarrow FB) = 0.9$
+    \item $P(FB \rightarrow C1) = 0.1$
+    \item $P(C1 \rightarrow C2) = 0.5$
+    \item $P(C2 \rightarrow C3) = 0.8$
+    \item $P(C3 \rightarrow Pub) = 0.4$
+    \item $P(Pub \rightarrow C2) = 0.4$
+    \item $P(C2 \rightarrow Sleep) = 0.2$
+\end{itemize}
+
+Por lo tanto, la probabilidad de que el proceso de Markov pase por los estados $C1 \rightarrow FB \rightarrow FB \rightarrow C1 \rightarrow C2 \rightarrow C3 \rightarrow Pub \rightarrow C1 \rightarrow FB \rightarrow FB \rightarrow FB \rightarrow C1 \rightarrow C2 \rightarrow C3 \rightarrow Pub \rightarrow C2 \rightarrow Sleep$ es:
+
+\begin{align*}
+    P(C1 \rightarrow FB \rightarrow FB \rightarrow C1 \rightarrow C2 \ldots) & = P(C1 \rightarrow FB) \cdot P(FB \rightarrow FB) \cdot \ldots \\
+    &= 0.5 \cdot 0.9 \cdot \ldots \cdot 0.2 \\
+    &= (0.1)^2 \cdot (0.2)^2 \cdot (0.4)^3 \cdot (0.5)^4 \cdot (0.8)^2 \cdot (0.9)^3 \\
+    &= 0.00000075\\
+    &= 7.5 \cdot 10^{-7}
+\end{align*}
 
 \line(1,0){\textwidth}

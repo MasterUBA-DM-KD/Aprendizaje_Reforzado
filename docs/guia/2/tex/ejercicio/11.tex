@@ -6,5 +6,28 @@ Demostrar que la función de valor esado-acción verifica la siguiente ecuación
 \]
 
 \indent\underline{\textbf{Solución}}\\
+Sea,\\
+$q_{\pi}(s,a)$: Función de valor de acción bajo una política $\pi$, es el valor esperado del retorno a partir del estado $s$ y la acción $a$.\\
+$p(s',r \mid s,a)$: Función de transición conjunta de estado y recompensas, es la probabilidad de que se obtenga el estado $s'$ y la recompensa $r$ al tomar la acción $a$ en el estado $s$.\\
+$\pi(a' \mid s')$: Política estocástica, asigna la probabilidad de seleccionar la acción $a'$ en el estado $s'$.
+
+La función de valor de acción $q_{\pi}(s,a)$, se puede expresar como,
+
+\begin{align*}
+    q_{\pi}(s,a) &= E[R_t | S_t = s, A_t = a] \\
+    &= \sum_{s',r} p(s',r \mid s,a) E[R_t | S_t = s', A_t = a]
+\end{align*}
+
+Se incluye la expectativa total, que considera la recompensa inmediata $r$ y el valor esperado del retorno a partir del estado $s'$, ponderado por el factor de descuento $\gamma$~\cite{Sutton2018},
+
+\[
+    E[R_t | S_t = s', A_t = a] = r + \gamma \sum_{a'} q_{\pi}(s',a') \pi(a' \mid s')
+\]
+
+Al sustituir en la función de valor de acción, se obtiene,
+
+\[
+    q_{\pi}(s,a) = \sum_{s',r} p(s',r \mid s,a) \left[ r + \gamma \sum_{a'} q_{\pi}(s',a') \pi(a' \mid s') \right]
+\]
 
 \line(1,0){\textwidth}

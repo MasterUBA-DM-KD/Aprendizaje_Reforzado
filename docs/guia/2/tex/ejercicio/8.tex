@@ -6,5 +6,42 @@ Demostrar que, dada una política estocástica $\pi (a \mid s)$, la función de 
 \]
 
 \indent\underline{\textbf{Solución}}\\
+Sea,\\
+$v_{\pi}(s)$: Valor esperado del retorno a partir del estado $s$.\\
+$q_{\pi}(s, a)$: Función de valor de acción bajo una política $\pi$, es el valor esperado del retorno a partir del estado $s$ y la acción $a$.\\
+$\pi(a \mid s)$: Política estocástica, asigna la probabilidad de seleccionar la acción $a$ en el estado $s$.\\
+$R_t$: Recompensa total acumulada desde $t$.
+
+Partiendo del valor esperado de estado $s$, bajo la política $\pi$,
+
+\[
+    v_{\pi}(s) = E_{\pi}[R_t | S_t = s]
+\]
+
+El valor esperado, se puede expresar considerando todas las posibles acciones que se pueden tomar en el estado $s$, ponderadas por la probabilidad de seleccionar cada acción, es decir,
+
+\[
+    v_{\pi}(s)= \sum_{a \in \mathcal{A}} P(A_t = a | S_t = s) E[R_t | S_t = s, A_t = a]
+\]
+
+Se incorpora la política estocástica,
+
+\[
+    P(A_t = a | S_t = s) = \pi(a \mid s)
+\]
+
+Se incorpora la función de valor de acción,
+
+\[
+    E[R_t | S_t = s, A_t = a] = q_{\pi}(s, a)
+\]
+
+Al remplazar ambas en la expresión inicial, se obtiene,
+
+\[
+    v_{\pi}(s) = \sum_{a \in \mathcal{A}} \pi(a \mid s) q_{\pi}(s, a)
+\]
+
+Entonces, se tiene una expresión que relaciona la función de estado y acción~\cite{Sutton2018}.
 
 \line(1,0){\textwidth}

@@ -6,5 +6,35 @@ Demostrar que la función de valor estado-acción óptima es:
 \]
 
 \indent\underline{\textbf{Solución}}\\
+Sea,\\
+$q_{\ast}(s,a)$: Función de valor de acción óptima, es el valor esperado del retorno a partir del estado $s$ y la acción $a$ bajo una política óptima.\\
+$p(s',r \mid s,a)$: Función de transición conjunta de estado y recompensas, es la probabilidad de que se obtenga el estado $s'$ y la recompensa $r$ al tomar la acción $a$ en el estado $s$.\\
+$v_{\ast}(s')$: Valor de estado óptimo, es el valor esperado del retorno a partir del estado $s'$ bajo una política óptima.
+
+La función de valor de estado acción óptima $q_{\ast}(s,a)$, se puede expresar como,
+
+\[
+    q_{\ast}(s,a) = E[R_t | S_t = s, A_t = a]
+\]
+
+Es decir, $q_{\ast}(s,a)$ es la suma de la recompensa inmediata $r$ y el valor esperado del retorno a partir del estado $s'$~\cite{Sutton2018}.
+El valor óptimo de la función de valor de acción se puede expresar como,
+
+\[
+    q_{\ast}(s,a) = \sum_{s',r} p(s',r \mid s,a) E[R_t | S_t = s', A_t = a]
+\]
+
+Donde,
+
+\[
+    E[R_t | S_t = s', A_t = a] = r + \gamma v_{\ast}(s')
+    v_{\ast}(s') = \max_{a'} q_{\ast}(s',a')
+\]
+
+Al sustituir en la función de valor de acción óptima, se obtiene,
+
+\[
+    q_{\ast}(s,a) = \sum_{s',r} p(s',r \mid s,a) \left[ r + \gamma \max_{a'} q_{\ast}(s',a') \right]
+\]
 
 \line(1,0){\textwidth}
