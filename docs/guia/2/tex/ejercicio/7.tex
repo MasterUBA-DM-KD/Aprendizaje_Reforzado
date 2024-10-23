@@ -50,7 +50,7 @@ El vector de recompensas $r$, se muestra en la Tabla~\ref{tab:r_vector}.
 Se iteró el cálculo de $v_{n+1}$ hasta que la diferencia entre $v_{n+1}$ y $v_n$ sea menor a $10^{-6}$.
 A continuación se muestran los valores de $v_{n+1}$ para $\gamma \in {0,0.5,0.9}$ en la Tabla~\ref{tab:v_iter}\footnotemark.
 
-\footnotetext{El cálculo se hizo con Excel, la hoja de cálculo utilizada se encuentra disponible en el repositorio de \href{https://github.com/MasterUBA-DM-KD/Aprendizaje_Reforzado/blob/4993e3466d1afb2b2c57489c20714a0b8106d984/docs/guia/1/notebooks/armed_bandits.py}{GitHub}.}
+\footnotetext{El cálculo se hizo con Excel, la hoja de cálculo utilizada se encuentra disponible en el repositorio de \href{https://github.com/MasterUBA-DM-KD/Aprendizaje_Reforzado/blob/e959814d84fcb56c2eeebf1810c97b2cc8f127e6/docs/guia/2/other/M%C3%A9todo%20iterativo.xlsx}{GitHub}.}
 
 \begin{table}[H]
     \centering
@@ -72,7 +72,7 @@ A continuación se muestran los valores de $v_{n+1}$ para $\gamma \in {0,0.5,0.9
 Se realizó el cálculo de $v$ para $\gamma \in {0,0.5,0.9}$ usando eliminación Gaussiana, con ayuda de la función \textit{numpy.linalg.solve()}.
 A continuación se muestran los valores de $v$ en la Tabla~\ref{tab:v_gauss}\footnotemark.
 
-\footnotetext{El cálculo se hizo con NumPy, el código utilizado se encuentra disponible en el repositorio de \href{https://github.com/MasterUBA-DM-KD/Aprendizaje_Reforzado/blob/4993e3466d1afb2b2c57489c20714a0b8106d984/docs/guia/1/notebooks/armed_bandits.py}{GitHub}.}
+\footnotetext{El cálculo se hizo con NumPy, la funcion \textit{solve\_belman(...)} se encuentra disponible en el repositorio de \href{https://github.com/MasterUBA-DM-KD/Aprendizaje_Reforzado/blob/e959814d84fcb56c2eeebf1810c97b2cc8f127e6/docs/guia/2/notebooks/utils.py}{GitHub}.}
 
 \begin{table}[H]
     \centering
@@ -94,7 +94,7 @@ A continuación se muestran los valores de $v$ en la Tabla~\ref{tab:v_gauss}\foo
 Para calcular la inversa de la matriz $I - \gamma P$, se utilizó la función \textit{numpy.linalg.inv()}.
 A continuación se muestran los valores de $v$ en la Tabla~\ref{tab:v_inv}\footnotemark.
 
-\footnotetext{El cálculo se hizo con NumPy, el código utilizado se encuentra disponible en el repositorio de \href{https://github.com/MasterUBA-DM-KD/Aprendizaje_Reforzado/blob/4993e3466d1afb2b2c57489c20714a0b8106d984/docs/guia/1/notebooks/armed_bandits.py}{GitHub}.}
+\footnotetext{El cálculo se hizo con NumPy, la funcion \textit{solve\_belman\_inverse(...)}  se encuentra disponible en el repositorio de \href{https://github.com/MasterUBA-DM-KD/Aprendizaje_Reforzado/blob/e959814d84fcb56c2eeebf1810c97b2cc8f127e6/docs/guia/2/notebooks/utils.py}{GitHub}.}
 
 \begin{table}[H]
     \centering
