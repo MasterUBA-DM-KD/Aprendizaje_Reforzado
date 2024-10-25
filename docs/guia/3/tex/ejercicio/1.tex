@@ -1,0 +1,27 @@
+\indent\underline{\textbf{Ejercicio 1}}\\
+\textcolor{green}{[Programación]} Para el proceso de Markov de recompensas (MRP) de la figura~\ref{fig:grafo_1}, calcular los valores de los estados de forma iterativa con los
+siguientes algoritmos y compare sus convergencias.
+Considere factor de descuento $\gamma < 0.9$.\\
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[->, >=stealth', auto, semithick, node distance=2cm]
+        % Nodes
+        \node[circle, draw] (s1) {$s_1$};
+        \node[circle, draw, right=of s1] (s2) {$s_2$};
+        % Arrows
+        \path (s1) edge[bend left=60] node {R=1} (s2)
+              (s2) edge[bend left=60] node[align=center] {R=2 \\ $p(s_2 \mid s_1) = 1$ \\ $p(s_1 \mid s_2) = 1$} (s1);
+    \end{tikzpicture}
+    \caption{Grafo de transición de estados}\label{fig:grafo_1}
+\end{figure}
+
+
+\begin{itemize}
+    \item Actualizar todos los valores a la vez por iteración: $v_{k+1} = r + \gamma P v_k$, con $v_k\, r$ siendo los vectores y recompensas, respectivamente; y $P$ la matriz de probabilidades de transición.
+    \item Actualizar los valores de un estado por vex \textit{(in place)}: $v_{k+1}(s') = r(s') + \gamma v_k(s)$, con $v_k(s)$ y $r(s')$ siendo los valores y recompensas correspondientes a los estados $s$ y $s'$, respectivamente.
+\end{itemize}
+
+\indent\underline{\textbf{Solución}}\\
+
+\line(1,0){\textwidth}

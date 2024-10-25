@@ -1,0 +1,60 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1.5cm]{geometry}        % For setting margins
+\usepackage[spanish,es-tabla]{babel}
+\selectlanguage{spanish}
+\usepackage{amsmath}                % For Math
+\usepackage{fancyhdr}                % For fancy header/footer
+\usepackage{graphicx}                % For including figure/image
+\usepackage{cancel}                    % To use the slash to cancel out stuff in working out equations
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{bbm}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{lipsum}
+\usepackage{listings}
+\usepackage{algorithm,algpseudocode}
+\usepackage{hyperref}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{booktabs}
+\usetikzlibrary{arrows, positioning}
+\captionsetup{compatibility=false}
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Set up fancy header/footer
+\pagestyle{fancy}
+\fancyhead[LO,L]{Alejandro Uribe}
+\fancyhead[CO,C]{}
+\fancyhead[RO,R]{Aprendizaje Reforzado - Guía 3: Programación Dinámica}
+\fancyfoot[LO,L]{}
+\fancyfoot[CO,C]{\thepage}
+%\fancyfoot[RO,R]{\today}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+\newlength\tindent
+\setlength{\tindent}{\parindent}
+\setlength{\parindent}{0pt}
+\renewcommand{\indent}{\hspace*{\tindent}}
+\DeclareMathOperator*{\argmax}{argmax}
+\floatname{algorithm}{Algoritmo}
+
+\decimalpoint
+\bibliographystyle{ieeetr}
+%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+    \input{ejercicio/1}
+    \input{ejercicio/2}
+
+    \input{ejercicio/3}
+
+    \input{ejercicio/4}
+
+    \input{ejercicio/5}
+
+    \bibliography{references}
+
+\end{document}
