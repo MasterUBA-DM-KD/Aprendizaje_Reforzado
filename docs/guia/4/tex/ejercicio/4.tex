@@ -1,0 +1,12 @@
+\indent\underline{\textbf{Ejercicio 4}}\\
+Dada una trayectoria de acciones y estados $A_t,\ S_t,\ A_{t+1},\ S_{t+1}, \ldots, A_T,\ S_T$, en un proceso de decisión Markoviano (MDP) bajo la política $\pi(a \mid s)$, demostrar que la probabilidad conjunta de esa trayectoria se puede escribir como:
+
+\[
+    P[S_t,A_t,S_{t+1},A_{t+1},\ldots,S_T,A_T] = P[S_t] \prod_{k=t}^{T-1} \pi(A_k \mid S_k) p(S_{k+1} \mid S_k, A_k)
+\]
+
+\textbf{Nota:} considere $P[S_t]=1$.
+
+\indent\underline{\textbf{Solución}}\\
+
+\line(1,0){\textwidth}

@@ -1,0 +1,19 @@
+\indent\underline{\textbf{Ejercicio 6}}\\
+Demostrar la fórmula de la implementación incremental de un promedio ponderado.
+Es decir, el promedio ponderado
+
+\[
+    V_n = \frac{\sum_{k=1}^{n-1} W_k G_k}{\sum_{k=1}^{n-1} W_k}
+\]
+
+puede calcularse incrementalmente con la fórmula:
+
+\[
+    V_{n+1} = V_n + \frac{W_n}{C_n}\left[G_n - V_n\right],
+\]
+
+con $C_{n+1} = C_n + W_{n+1}$
+
+\indent\underline{\textbf{Solución}}\\
+
+\line(1,0){\textwidth}
