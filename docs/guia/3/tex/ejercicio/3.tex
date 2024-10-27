@@ -1,14 +1,51 @@
 \indent\underline{\textbf{Ejercicio 3}}\\
-En el Ejemplo 4.1 (\textit{GridWorld, Sutton\&Barto, 2018})~\cite{Sutton2018}, suponga que se agrega un nuevo estado $15$ del estado $13$ y sus acciones: \textit{left, up, right} y \textit{down}, lleva al agente a los estados $12$, $13$, $14$ y $15$, respectivamente.
+En el Ejemplo 4.1 (\textit{GridWorld}, Sutton\&Barto, 2018)~\cite{Sutton2018}, suponga que se agrega un nuevo estado $15$ debajo del estado $13$ y sus acciones: \textit{left, up, right} y \textit{down}, lleva al agente a los estados $12$, $13$, $14$ y $15$, respectivamente.
 
 \begin{itemize}
     \item Considere que las transiciones desde los estados originales no se cambian.
     ¿Cuánto vale $v_{\pi}(15)$ para la política $\pi$ aleatoria y equiprobable?
-    Utilice $v(12) = -22$, $v(13) = -20$, $v(14) = -14$ (Fig. 4.1 del libro)
+    Utilice $v(12) = -22$, $v(13) = -20$, $v(14) = -14$ (figura~\ref{fig:gridworld}).
 \end{itemize}
 
 Justifique su respuesta.
 
 \indent\underline{\textbf{Solución}}\\
+Sea,\\
+$p(s',r|s,a) = 0.25, \ \forall s \in S, \forall a \in A$\\
+
+La función de valor de estado $v_{\pi}(s)$ para la política $\pi$ es:
+
+\[
+    v_{pi} = \sum_{a} \pi(a|s) \sum_{s',r} p(s',r|s,a) \left[ r + \gamma v_{\pi}(s') \right]
+\]
+
+Para calcular $v_{\pi}(15)$,
+
+\begin{align*}
+    v_{\pi}(15) &= \sum_{a} \pi(a|15) \sum_{s',r} p(s',r|15,a) \left[ r + \gamma v_{\pi}(s') \right] \\
+    &= 0.25 \left[ r + \gamma v_{\pi}(s') \right] \\
+    &= 0.25 \left[\left(-1 -20 \right) + \left(-1 -22 \right) + \left(-1 -14 \right) + \left(-1 + v_{\pi}(15) \right) \right] \\
+    &= 0.25 \left[ -21 -23 -15 -1 + v_{\pi}(15) \right] \\
+    &= 0.25 \left[ -60 + v_{\pi}(15) \right] \\
+    &= -15 + 0.25 \cdot v_{\pi}(15)
+\end{align*}
+
+Al considerar que las transiciones desde los estados originales no se cambian, es posible la transición del estado $13$ al $15$.
+Pasar al estado $15$ tiene un valor igual al del estado $13$.
+Por lo tanto,
+
+\begin{align*}
+    v_{\pi}(15) &= v_{\pi}(13) \\
+    &= -20
+\end{align*}
+
+Al reemplazar $v_{\pi}(15)$ en la ecuación anterior, se obtiene:
+
+\begin{align*}
+    v_{\pi}(15) &= -15 + 0.25 \cdot v_{\pi}(15) \\
+    &= -15 + 0.25 \cdot (-20) \\
+    &= -15 - 5 \\
+    &= -20
+\end{align*}
 
 \line(1,0){\textwidth}

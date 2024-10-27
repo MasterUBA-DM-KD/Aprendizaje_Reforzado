@@ -1,13 +1,56 @@
 \indent\underline{\textbf{Ejercicio 2}}\\
-En el Ejemplo 4.1 (\textit{GridWorld, Sutton\&Barto, 2018})~\cite{Sutton2018}, donde la política $\pi$ es aleatoria y equiprobable:
+En el Ejemplo 4.1 (\textit{GridWorld, Sutton\&Barto, 2018}), donde la política $\pi$ es aleatoria y equiprobable:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../img/gridworld}
+    \caption{\textit{GridWorld}~\cite{Sutton2018}}
+    \label{fig:gridworld}
+\end{figure}
 
 \begin{itemize}
     \item ¿Cuánto vale $q_{\pi}(11,down)$?
-    \item ¿Cuánto vale $q_{\pi}(7,down)$? \\ \textbf{Nota}: utilice $v(11)=-14$ (Fig. 4.1 del libro).
+    \item ¿Cuánto vale $q_{\pi}(7,down)$?
 \end{itemize}
+
+\indent\textbf{Nota}: utilice $v(11)=-14$ (figura~\ref{fig:gridworld}).
 
 Justifique sus respuestas.
 
 \indent\underline{\textbf{Solución}}\\
+Sea,\\
+$S=\left\{ 1, 2, \ldots, 14 \right\}$: conjunto de estados no terminales\footnotemark\\
+$A=\left\{up,down,left,right\right\}$: conjunto de acciones\\
+$R_t = -1$: recompensa por transición\\
+$\pi$: política aleatoria y equiprobable, es decir, $\pi(a|s)=0.25, \ \forall s \in S, \ \forall a \in A$\\
+$q_{\pi}$: función de valor de acción para la política $\pi$\\
+
+\footnotetext{Los estados terminales son aquellos que se encuentran sombreados en la figura~\ref{fig:gridworld}.}
+
+\paragraph{Suposición} Se supone que $\gamma=1$, entonces MDP es episódico y no hay descuento en las recompensas.
+
+La ecuación de Bellman para $q_{\pi}(s,a)$ es:
+
+\[
+    q_{\pi}(s,a) = \sum_{s',r} p(s',r|s,a) \left[ r + \gamma v_{\pi}(s') \right]
+\]
+
+Para calcular $q_{\pi}(11,down)$, se parte del estado $11$ y se realiza la acción $down$.
+Bajo el estado $11$ se encuentra el estado terminal, el estado terminal tiene una recompensa de $0$, ya que no se obtiene ninguna recompensa por llegar a un estado terminal.
+Por lo tanto,
+
+\begin{align*}
+    q_{\pi}(11,down) &= -1 + 0 \\
+    &= -1
+\end{align*}
+
+Para calcular $q_{\pi}(7,down)$, se tiene que bajo el estado $7$ se encuentra el estado $11$ y $v(11)=-14$.
+Por lo tanto,
+
+\begin{align*}
+    q_{\pi}(7,down) &= -1 + (-14) \\
+    &= -15
+\end{align*}
+
 
 \line(1,0){\textwidth}
