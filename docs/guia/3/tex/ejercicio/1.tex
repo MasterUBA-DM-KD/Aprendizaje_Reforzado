@@ -22,6 +22,7 @@ Considere factor de descuento $\gamma < 0.9$.\\
 \end{itemize}
 
 \indent\underline{\textbf{Solución}}\\
+La implementación de los algoritmos se realizó en Python, que se puede encontrar en el repositorio de \href{https://github.com/MasterUBA-DM-KD/Aprendizaje_Reforzado/blob/5ae50da937b14f0a11c416e40019a4b5661dd51b/docs/guia/3/notebooks/utils.py}{GitHub}.
 
 Sea, $P$ la matriz de probabilidades de transición:
 
@@ -80,7 +81,6 @@ La figura~\ref{fig:inplace_gamma} muestra los resultados para el método \textit
     \end{subfigure}
     \caption{Resultados del método \textit{inplace}}\label{fig:inplace_gamma}
 \end{figure}
-
 
 \indent\underline{\textbf{Conclusiones}}\\
 No existe una diferencia significativa entre los métodos \textit{iterativo} e \textit{in place} para valores de $\gamma \in [0, 0.9)$.
