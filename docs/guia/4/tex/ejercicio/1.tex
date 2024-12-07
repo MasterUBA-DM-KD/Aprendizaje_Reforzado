@@ -1,16 +1,63 @@
 \indent\underline{\textbf{Ejercicio 1}}\\
 Considere un proceso de decisión de Markov (MDP) con dos estados: uno terminal y otro no-terminal.
 Existe sólo una acción que lleva del estado no-terminal al estado terminal con probabilidad $1 - \rho$ y del estado no-terminal a si mismo con probabilidad $\rho$.
-La recompensa es $+1$ en todas las transiciones y el
-factor de descuento es $\gamma = 1$.
+La recompensa es $+1$ en todas las transiciones y el factor de descuento es $\gamma = 1$.
 Suponga que observa un episodio con $10$ iteraciones y un retorno de $10$.
 
 \begin{itemize}
     \item ¿Cuáles son las estimaciones Monte Carlo de primer-visita y de cada-visita del valor del estado no-terminal basadas en ese episodio?
     \item Compare los valores de estado obtenidos con el teórico si $\rho = 0.9$.
-    Saque conclusiones.
 \end{itemize}
 
-\indent\underline{\textbf{Solución}}\\
+Saque conclusiones.
+
+\indent\underline{\textbf{Solución}}
+\paragraph{Primer-Visita}
+Para la estimación Monte Carlo de primer-visita, es el retorno recolectado al final del episodio después de haber visitado el primer paso.
+
+Suponiendo una inicialización de $G=0 \ : \ G=10$
+
+\paragraph{Cada-Visita}
+El estimador Monte Carlo de cada-visita es el promedio de los retornos recibidos en cada estado.
+
+Suponiendo una inicialización de $G=0 \ : \ G=10$
+
+\begin{align*}
+    G &= \frac{1 + 2 + 3 + 4 + 5 + 6 + 7 + 8 + 9 + 10}{10} \\
+    &= \frac{55}{10} \\
+    &= 5.5
+\end{align*}
+
+Por otro lado, el valor teórico del estado no-terminal es $V(S_1) = \sum_{s'} P \left(s' | S_1\right) \cdot \left[R \left(S_1,s'\right) + \gamma V(s')\right]$.
+
+\begin{align*}
+    V(S_1) &= \rho \cdot \left[1 + V(S_1)\right] + (1 - \rho) \cdot 1 \left[1 + V(S_2)\right] \\
+    &= \rho \cdot \left[1 + V(S_1)\right] + (1 - \rho) \cdot 1 \\
+    &= \rho + \rho V(S_1) + \left(1 - \rho \right)
+\end{align*}
+
+Despejando $V(S_1)$,
+
+\begin{align*}
+    V(S_1) - \rho V(S_1) &= \rho + \left(1 - \rho\right) \\
+    V(S_1) \left(1 - \rho\right) &= 1 \\
+    V(S_1) &= \frac{1}{1 - \rho}
+\end{align*}
+
+Considerando $\rho = 0.9$,
+
+\begin{align*}
+    V(S_1) &= \frac{1}{1 - 0.9} \\
+    &= \frac{1}{0.1} \\
+    &= 10
+\end{align*}
+
+\indent\underline{\textbf{Conclusión}\\}
+
+Se observa que el valor teórico del estado no-terminal es $10$, mientras que el valor estimado por Monte Carlo de primer-visita es $10$ y el valor estimado por Monte Carlo de cada-visita es $5.5$.
+
+Por lo tanto, se concluye que el valor estimado por Monte Carlo de primer-visita es igual al valor teórico, mientras que el valor estimado por Monte Carlo de cada-visita es menor al valor teórico.
+
+Por otro lado, la estimación Monte Carlo de cada-visita subestima el valor teórico del estado no-terminal, debido a la naturaleza decreciente de los retornos en cada iteración.
 
 \line(1,0){\textwidth}

@@ -2,17 +2,77 @@
 Demostrar que la política $\varepsilon \text{ - \textit{Greedy}}$, definida de la siguiente manera
 
 \begin{equation}
-\pi(a|s) = \left\{
-\begin{array}{lcc}
-    1 - \varepsilon + \frac{\varepsilon}{|A(s)|} & si  & a = a^{\ast} \\ \\
-     \frac{\varepsilon}{|A(s)|} &  si & a \neq a^{\ast}
-\end{array}
-   \right.\label{eq:equation}
+    \pi(a|s) = \left\{
+    \begin{array}{lcc}
+        1 - \varepsilon + \frac{\varepsilon}{|A(s)|} & si & a = a^{\ast}    \\ \\
+        \frac{\varepsilon}{|A(s)|} & si & a \neq a^{\ast}
+    \end{array}
+    \right.\label{eq:equation}
 \end{equation}
 
 es una distribución de probabilidad válida, donde $|A(s)|$ es el número de acciones para el estado $s, \ \varepsilon < 1$ es un número positivo pequeño, y $a^{\ast}$ es la acción óptima (decisión greedy) para el estado $s$.
 ¿Hay que pedir alguna condición sobre $\varepsilon$?
 
 \indent\underline{\textbf{Solución}}\\
+
+Para la demostración en cuestión, la política $\pi(a|s)$ es:
+
+\begin{equation}
+    \pi(a|s) = \left\{
+    \begin{array}{lcc}
+        1 - \varepsilon + \frac{\varepsilon}{|A(s)|} & si & a = a^{\ast}    \\ \\
+        \frac{\varepsilon}{|A(s)|} & si & a \neq a^{\ast}
+    \end{array}
+    \right.
+    \label{eq:equation2}
+\end{equation}
+
+\paragraph{$a=a^{\ast}$}
+
+La probabilidad corresponde a:
+
+\[
+    \pi \left(a^{\ast} \mid s\right) = 1 - \varepsilon + \frac{\varepsilon}{|A(s)|}
+\]
+
+Considerando que $0 \leq \varepsilon < 1$ y $\frac{\varepsilon}{|A(s)|} \geq 0$, se tiene que:
+
+\[
+    \pi \left(a^{\ast} \mid s\right) \geq 1 - \varepsilon > 0
+\]
+
+
+
+
+\paragraph{$a \neq a^{\ast}$}
+
+La probabilidad corresponde a:
+
+\[
+    \pi \left(a \mid s\right) = \frac{\varepsilon}{|A(s)|}
+\]
+
+Considerando que $\varepsilon \geq 0$ y $|A(s)| > 0$, se tiene que:
+
+\[
+    \pi \left(a \mid s\right) \geq 0
+\]
+
+Por lo tanto, la política $\pi(a|s) \geq 0$ para toda acción.
+
+\paragraph{Suma de probabilidades}
+
+La suma de las probabilidades para todas las acciones es:
+
+\[
+    \sum_{a \in A(s)} \pi \left(a \mid s\right) = \sum_{a \in A(s)} \left[1 - \varepsilon + \frac{\varepsilon}{|A(s)|}\right]  + \sum_{a \neq a^{\ast}} \pi \left(a \mid s\right)
+\]
+
+Si $a = a^{\ast}$, entonces:
+
+\[
+    \sum_{a \in A(s)} \pi \left(a \mid s\right) = \left[1 - \varepsilon + \frac{\varepsilon}{|A(s)|}\right] \cdot |A(s)| = 1 - \varepsilon + \varepsilon = 1
+\]
+
 
 \line(1,0){\textwidth}
