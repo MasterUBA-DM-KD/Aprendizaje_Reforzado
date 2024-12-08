@@ -1,10 +1,45 @@
 \indent\underline{\textbf{Ejercicio 5}}\\
-Usando el resultado del Ejercicio 4, demostrar que el \textit{importance-sampling ratio} correspondiente a la aplicación del método \textit{off-policy} es:
+Usando el resultado del \textit{Ejercicio 4}, demostrar que el \textit{importance-sampling ratio} correspondiente a la aplicación del método \textit{off-policy} es:
 
 \[
     \rho_{t:T-1} = \prod_{k=t}^{T-1} \frac{\pi(A_k \mid S_k)}{b(A_k \mid S_k)}
 \]
 
 \indent\underline{\textbf{Solución}}\\
+
+Sea,\\
+$\pi(a \mid s)$: Política objetivo a evaluar,\\
+$p(S_{k+1} \mid S_k, A_k)$: Modelo de transición del entorno,\\
+$b(A_k \mid S_k)$: Política de comportamiento utilizada para generar la trayectoria,\\
+
+Del \textit{Ejercicio 4} se tiene que la probabilidad conjunta de una trayectoria bajo la política $\pi(a \mid s)$ es:
+
+\[
+    P[S_t,A_t,S_{t+1},A_{t+1},\ldots,S_T,A_T] = P[S_t] \prod_{k=t}^{T-1} \pi(A_k \mid S_k) p(S_{k+1} \mid S_k, A_k)
+\]
+
+Por otro lado, la probabilidad conjunta de la trayectoria bajo la política $b(a \mid s)$ es:
+
+\[
+    P[S_t,A_t,S_{t+1},A_{t+1},\ldots,S_T,A_T] = P[S_t] \prod_{k=t}^{T-1} b(A_k \mid S_k) p(S_{k+1} \mid S_k, A_k)
+\]
+
+El \textit{importance-sampling ratio} mide la relación entre la probabilidad de una trayectoria bajo la política objetivo $\pi$ y la políticia de comportamiento $b$.
+
+\[
+    \rho_{t:T-1} = \frac{P[S_t,A_t,S_{t+1},A_{t+1},\ldots,S_T,A_T]}{P[S_t,A_t,S_{t+1},A_{t+1},\ldots,S_T,A_T]}
+\]
+
+Tras sustituir las expresiones de las probabilidades conjuntas se obtuvo:
+
+\[
+    \rho_{t:T-1} = \frac{P[S_t] \prod_{k=t}^{T-1} \pi(A_k \mid S_k) p(S_{k+1} \mid S_k, A_k)}{P[S_t] \prod_{k=t}^{T-1} b(A_k \mid S_k) p(S_{k+1} \mid S_k, A_k)}
+\]
+
+Tras simplificar el término $P[S_t]$ se obtuvo:
+
+\[
+    \rho_{t:T-1} = \prod_{k=t}^{T-1} \frac{\pi(A_k \mid S_k)}{b(A_k \mid S_k)}
+\]
 
 \line(1,0){\textwidth}

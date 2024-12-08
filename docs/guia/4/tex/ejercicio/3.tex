@@ -4,4 +4,83 @@ Demostrar que la política $\varepsilon \text{ - \textit{Greedy}} \ \pi'(a \mid 
 
 \indent\underline{\textbf{Solución}}\\
 
+El valor de un estado $s$ bajo una política $\pi$ es:
+
+\[
+    v_{\pi}(s) = \mathbb{E}_{\pi} \left[\sum_{t=0}^{\infty} \gamma^t R(s_t, a_t) \mid s_0 = s\right]
+\]
+
+donde,\\
+$\gamma$: factor de descuento,\\
+$a_t$: acciones elegidas según la política $\pi(a_t \mid s_t)$,
+
+\paragraph{Política $\varepsilon -\textit{soft}$}
+Una política $\pi$ es $\varepsilon -\textit{soft}$ si~\cite{Sutton2018}:
+
+\[
+    \pi(a \mid s) \geq \frac{\varepsilon}{|A(s)|} \ \forall a \neq a^{\ast} \ \text{y} \ \forall s
+\]
+
+\paragraph{Política $\varepsilon -\textit{Greedy}$}
+La política $\varepsilon -\textit{Greedy}$ es:
+
+\begin{equation}
+    \pi'(a \mid s) = \left\{
+    \begin{array}{lcc}
+        1 - \varepsilon + \frac{\varepsilon}{|A(s)|} & si & a = a^{\ast}    \\ \\
+        \frac{\varepsilon}{|A(s)|} & si & a \neq a^{\ast}
+    \end{array}
+    \right.
+    \label{eq:equation3}
+\end{equation}
+
+La política $\pi'(a \mid s)$ favorece la acción \textit{Greedy}, y las demás acciones tienen una probabilidad uniforme $\frac{\varepsilon}{|A(s)|}$.
+
+\paragraph{Comparación de políticas}
+
+Para comparar las políticas $\pi$ y $\pi'$, se considera el valor de un estado $s$ bajo la política $\pi$ y $\pi'$.
+
+\[
+    v_{\pi}(s) = \sum_{a \in A(s)} \pi(a \mid s) \left[R(s, a) + \gamma \sum_{s'} P(s' \mid s, a) v_{\pi}(s')\right]
+\]
+
+Se analizarán los valores de $v_{\pi'}(s)$ y $v_{\pi}(s)$ a fin de comparar si $\pi'$ o $\pi$ maximizan el valor, respectivamente.
+
+\paragraph{Valor de $v_{\pi'}(s)$}
+
+La política $\pi'$ favorece la acción \textit{Greedy}, que maximiza la recompensa inmediata y el valor futuro,
+
+\begin{itemize}
+    \item Para $a = a^{\ast}$, $\pi'(a \mid s) = 1 - \varepsilon + \frac{\varepsilon}{|A(s)|}$, es mayor que la probabilidad mínima de una política $\varepsilon -\textit{soft}$.
+    \item Para $a \neq a^{\ast}$, $\pi'(a \mid s) = \frac{\varepsilon}{|A(s)|}$, es igual a la probabilidad mínima de una política $\varepsilon -\textit{soft}$.
+\end{itemize}
+
+Para cualquier estado $s$, el valor de $v_{\pi'}(s)$ es mayor o igual al valor de $v_{\pi}(s)$ ya que:
+
+\begin{itemize}
+    \item La recompensa inmediata asociada con $a^{\ast}$ es mínimamente el valor el valor de cualquier otra acción.
+    \item El valor futuro descontado con $a^{\ast}$ es mayor que el de cualquier otra acción, ya que $a^{\ast}$ es \textit{Greedy}.
+\end{itemize}
+
+Si se comparan las ecuaciones de Bellman para $v_{\pi'}(s)$ y $v_{\pi}(s)$:
+
+\begin{align*}
+    v_{\pi'}(s) &= \sum_{a \in A(s)} \pi'(a \mid s) \left[R(s, a) + \gamma \sum_{s'} P(s' \mid s, a) v_{\pi'}(s')\right] \\
+    v_{\pi}(s) &= \sum_{a \in A(s)} \pi(a \mid s) \left[R(s, a) + \gamma \sum_{s'} P(s' \mid s, a) v_{\pi}(s')\right]
+\end{align*}
+
+Teniendo en cuenta que $\pi'(a^{\ast} \mid s) > \pi(a^{\ast} \mid s) \geq \pi(a \mid s)$ para $a \neq a^{\ast}$ y que $a^{\ast}$ maximiza la recompensa y el valor futuro, se concluye que:
+
+\[
+     v_{\pi'}(s) \geq v_{\pi}(s) \ \forall s
+\]
+
+Se requieren las siguientes condiciones para $\varepsilon$:
+
+\begin{itemize}
+    \item $\pi$ debe ser $\varepsilon -\textit{soft}$, es decir, $\pi(a \mid s) \geq \frac{\varepsilon}{|A(s)|} \forall a$
+    \item $\varepsilon \geq 0$ y corresponde a un valor pequeño: $0 \leq \varepsilon < 1$.
+\end{itemize}
+
+
 \line(1,0){\textwidth}

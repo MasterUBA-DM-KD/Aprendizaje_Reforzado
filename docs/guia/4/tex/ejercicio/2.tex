@@ -41,9 +41,6 @@ Considerando que $0 \leq \varepsilon < 1$ y $\frac{\varepsilon}{|A(s)|} \geq 0$,
     \pi \left(a^{\ast} \mid s\right) \geq 1 - \varepsilon > 0
 \]
 
-
-
-
 \paragraph{$a \neq a^{\ast}$}
 
 La probabilidad corresponde a:
@@ -65,14 +62,45 @@ Por lo tanto, la política $\pi(a|s) \geq 0$ para toda acción.
 La suma de las probabilidades para todas las acciones es:
 
 \[
-    \sum_{a \in A(s)} \pi \left(a \mid s\right) = \sum_{a \in A(s)} \left[1 - \varepsilon + \frac{\varepsilon}{|A(s)|}\right]  + \sum_{a \neq a^{\ast}} \pi \left(a \mid s\right)
+    \sum_{a \in A(s)} \pi \left(a \mid s\right) = \pi \left( a^{\ast} \mid s \right)  + \sum_{a \neq a^{\ast}} \pi \left(a \mid s\right)
 \]
 
 Si $a = a^{\ast}$, entonces:
 
 \[
-    \sum_{a \in A(s)} \pi \left(a \mid s\right) = \left[1 - \varepsilon + \frac{\varepsilon}{|A(s)|}\right] \cdot |A(s)| = 1 - \varepsilon + \varepsilon = 1
+    \pi \left(a^{\ast} \mid s\right) = 1 - \varepsilon + \frac{\varepsilon}{|A(s)|}
 \]
 
+Para $a \neq a^{\ast}$, existen $|A(s)| - 1$ acciones no óptimas, por lo que:
+
+
+\[
+    \sum_{a \neq a^{\ast}} \pi \left(a \mid s\right) = \left(|A(s)| - 1\right) \cdot \frac{\varepsilon}{|A(s)|}
+\]
+
+Por lo tanto, la suma de las probabilidades es:
+
+\[
+    \sum_{a \neq a^{\ast}} \pi \left(a \mid s\right) = 1 - \varepsilon + \frac{\varepsilon}{|A(s)|} + \left(|A(s)| - 1\right) \cdot \frac{\varepsilon}{|A(s)|}
+\]
+
+Al separar el término $\frac{\varepsilon}{|A(s)|}$, se tiene:
+
+\begin{align*}
+    \sum_{a \in A(s)} \pi \left(a \mid s\right) &= 1 - \varepsilon + \varepsilon \\
+    \sum_{a \in A(s)} \pi \left(a \mid s\right) &= 1
+\end{align*}
+
+Por lo tanto, la política $\pi(a|s)$ es una distribución de probabilidad válida ya que suman $1$.
+
+\paragraph{Condición sobre $\varepsilon$}
+
+La condición sobre $\varepsilon$ es que $\varepsilon \geq 0$ y $\varepsilon < 1$.
+De tal manera se garantiza:
+
+\begin{itemize}
+    \item Que la probabilidad de la acción óptima $a^{\ast}$, $1 - \varepsilon + \frac{\varepsilon}{|A(s)|}$ sea mayor a $0$.
+    \item Las probabilidades de las acciones no óptimas, $\frac{\varepsilon}{|A(s)|}$, sean mayores a $0$.
+\end{itemize}
 
 \line(1,0){\textwidth}

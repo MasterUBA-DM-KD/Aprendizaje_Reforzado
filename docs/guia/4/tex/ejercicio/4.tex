@@ -9,4 +9,42 @@ Dada una trayectoria de acciones y estados $A_t,\ S_t,\ A_{t+1},\ S_{t+1}, \ldot
 
 \indent\underline{\textbf{Solución}}\\
 
+Sea,\\
+$\pi(a \mid s)$: política que determina la probabilidad de tomar una acción $A_k=a$ en el estado $S_k=s$,\\
+$p(S_{k+1} \mid S_k, A_k)$: Modelo de transición que determina la probabilidad de pasar al estado $S_{k+1}$ desde el estado $S_k$ al tomar la acción $A_k$,\\
+$P[S_t]$: Probabilidad de estar en el estado $S_t$ al inicio de la trayectoria.
+En este caso, se considera $P[S_t]=1$.
+
+Sea una trayectoria de acciones y estados $A_t,\ S_t,\ A_{t+1},\ S_{t+1}, \ldots, A_T,\ S_T$ en un proceso de decisión Markoviano (MDP) bajo la política $\pi(a \mid s)$.
+Se expande la probabilidad conjunta de la trayectoria como:
+
+\[
+    P[S_t,A_t,S_{t+1},A_{t+1},\ldots,S_T,A_T] = P[S_t] \cdot P[A_t \mid S_t] \cdot P[S_{t+1} \mid S_t, A_t] \cdot P[A_{t+1} \mid S_{t+1}] \ldots P[S_T \mid S_{T-1}, A_{T-1}] P[S_T]
+\]
+
+En el proceso de decisión Markoviano (MDP), se tiene que la pólitica y el modelo de transición corresponden a, respectivamente:
+
+\begin{align*}
+    P[A_K \mid S_K] &= \pi(A_K \mid S_K) \\
+    P[S_{t+1} \mid S_k, A_k] &= p(S_{k+1} \mid S_k, A_k)
+\end{align*}
+
+Al sustituir la política y el modelo de transición en la probabilidad conjunta de la trayectoria, se obtiene:
+
+\[
+    P[S_t,A_t,S_{t+1},A_{t+1},\ldots,S_T,A_T] = P[S_t] \cdot \pi(A_t \mid S_t) \cdot p(S_{t+1} \mid S_t, A_t) \cdot \pi(A_{t+1} \mid S_{t+1}) \ldots
+\]
+
+Se expresa como un producto:
+
+\[
+    P[S_t,A_t,S_{t+1},A_{t+1},\ldots,S_T,A_T] = P[S_t] \prod_{k=t}^{T-1} \pi(A_k \mid S_k) p(S_{k+1} \mid S_k, A_k)
+\]
+
+Teniendo en cuenta que $P[S_t]=1$, la probabilidad conjunta se simplifica a:
+
+\[
+    P[S_t,A_t,S_{t+1},A_{t+1},\ldots,S_T,A_T] = \prod_{k=t}^{T-1} \pi(A_k \mid S_k) p(S_{k+1} \mid S_k, A_k)
+\]
+
 \line(1,0){\textwidth}

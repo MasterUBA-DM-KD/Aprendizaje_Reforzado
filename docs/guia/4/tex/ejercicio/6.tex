@@ -16,4 +16,105 @@ con $C_{n+1} = C_n + W_{n+1}$
 
 \indent\underline{\textbf{Solución}}\\
 
+Considerando $C_n = \sum_{k=1}^{n-1} W_k$ se escribe $V_n$ como:
+
+\[
+    V_n = \frac{\sum_{k=1}^{n-1} W_k G_k}{C_n}
+\]
+
+Para $V_{n+1}$, se tiene:
+
+\[
+    V_{n+1} = \frac{\sum_{k=1}^{n} W_k G_k}{\sum_{k=1}^{n} W_k}
+\]
+
+De la expresión anterior, el numerador y el demoninador corresponden a, respectivamente:
+
+\begin{align*}
+    \sum_{k=1}^{n} W_k G_k = \sum_{k=1}^{n-1} W_k G_k + W_n G_n \\
+    \sum_{k=1}^{n} W_k = \sum_{k=1}^{n-1} W_k + W_n
+\end{align*}
+
+Sustituyendo en $V_{n+1}$, se obtiene:
+
+\[
+    V_{n+1} = \frac{\sum_{k=1}^{n-1} W_k G_k + W_n G_n}{\sum_{k=1}^{n-1} W_k + W_n}
+\]
+
+El denominador se puede escribir como $C_n + W_n$, por lo que:
+
+\[
+    V_{n+1} = \frac{\sum_{k=1}^{n-1} W_k G_k + W_n G_n}{C_n + W_n}
+\]
+
+Se remplaza en el numerador por $\sum_{k=1}^{n-1} W_k G_k = V_n C_n$:
+
+\[
+    V_{n+1} = \frac{V_n C_n + W_n G_n}{C_n + W_n}
+\]
+
+Tras dividir el numerador entre $C_n + W_n$, se obtuvo:
+
+\[
+    V_{n+1} = \frac{C_n V_n}{C_n + W_n} + \frac{W_n G_n}{C_n + W_n}
+\]
+
+Se simplifica la expresión:
+
+\[
+    V_{n+1} = V_n \frac{C_n}{C_n + W_n} + G_n \frac{W_n}{C_n + W_n}
+\]
+
+En el primer término $\frac{C_n}{C_n + W_n}$ corresponde a:
+
+\[
+    \frac{C_n}{C_n + W_n} = 1 - \frac{W_n}{C_n + W_n}
+\]
+
+Tras sustituir en $V_{n+1}$, se obtiene:
+
+\[
+    V_{n+1} = V_n \left( 1 - \frac{W_n}{C_n + W_n} \right) + G_n \frac{W_n}{C_n + W_n}
+\]
+
+Se simplifica la expresión:
+
+\[
+    V_{n+1} = V_n - V_n \frac{W_n}{C_n + W_n} + G_n \frac{W_n}{C_n + W_n}
+\]
+
+Se agrupa los términos que contienen $\frac{W_n}{C_n + W_n}$:
+
+\[
+    V_{n+1} = V_n + \frac{W_n}{C_n + W_n} \left( G_n - V_n \right)
+\]
+
+Del enunciado del ejercicio, se tiene que $C_{n+1} = C_n + W_{n+1}$, por lo que:
+
+\[
+    C_{n+1} = C_n + W_{n+1}
+\]
+
+Por lo tanto, la fórmula de la implementación incremental de un promedio ponderado es:
+
+\[
+    V_{n+1} = V_n + \frac{W_n}{C_n}\left[G_n - V_n\right]
+\]
+
+\paragraph{Conclusión}
+
+El promedio ponderado:
+
+\[
+    V_n = \frac{\sum_{k=1}^{n-1} W_k G_k}{\sum_{k=1}^{n-1} W_k}
+\]
+
+Puede calcularse incrementalmente con la fórmula:
+
+\[
+    V_{n+1} = V_n + \frac{W_n}{C_n}\left[G_n - V_n\right],
+\]
+
+con $C_{n+1} = C_n + W_{n+1}$.
+
 \line(1,0){\textwidth}
