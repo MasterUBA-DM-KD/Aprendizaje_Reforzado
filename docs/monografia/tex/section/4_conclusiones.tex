@@ -1,0 +1,84 @@
+\section{Conclusiones}\label{sec:conclusiones}
+
+La evaluación de \textit{PlaNet} y \textit{DreamerV2} en el dominio \textit{ReacherLoCA} revela desafíos clave en la adaptabilidad de los métodos modernos de aprendizaje por refuerzo basado en modelos profundos \textit{(MBRL)}:
+
+\begin{itemize}
+    \item \textbf{Adaptabilidad}: Ambos algoritmos tuvieron dificultades para ajustar sus políticas en la Fase 2 del experimento, independientemente de si se reinicializó el buffer de repetición.
+    Esto sugiere una limitación fundamental en su capacidad para adaptarse rápidamente a cambios en la dinámica del entorno o la estructura de recompensas.
+    \item \textbf{Buffer de repetición}:
+    \begin{itemize}
+        \item Si el buffer no se reinicializó, el rendimiento en la Fase 3 fue deficiente debido a la interferencia de datos obsoletos de la Fase 1.
+        \item La predicción de recompensas sin reinicializar el buffer mostró una sobreestimación del valor de $T_1$ en las Fases 2 y 3, afectando negativamente el aprendizaje del modelo y la planificación.
+    \end{itemize}
+    \item \textbf{Hiperparámetros}: El rendimiento de ambos algoritmos depende de parámetros como la escala de pérdida \textit{KL}, la entropía del actor y el factor de descuento, lo que resalta la necesidad de una calibración cuidadosa para nuevas tareas.
+    \item \textbf{Predicción de recompensas}: \textit{PlaNet} falló en la estimación del modelo de recompensa en la Fase 2, olvidando progresivamente la estructura de recompensa de $T_1$ a medida que avanzaba el entrenamiento.
+    \item \textbf{Causas de falla}:
+    \begin{itemize}
+        \item Olvido catastrófico de dinámicas o recompensas aprendidas previamente.
+        \item Interferencia de datos obsoletos en el buffer de repetición.
+        \item Incapacidad para explorar eficazmente el espacio de estados y detectar cambios en la estructura de recompensas.
+        \item Dificultades en el aprendizaje del modelo debido al uso de datos desactualizados.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Implicaciones de los hallazgos}\label{subsec:implicaciones-de-los-hallazgos}
+
+Los desafíos de \textit{PlaNet} y \textit{DreamerV2} en el dominio \textit{ReacherLoCA} tienen importantes implicaciones para el aprendizaje por refuerzo basado en modelos profundos \textit{(MBRL)}:
+
+\begin{itemize}
+    \item \textbf{Variedad de métricas de adaptabilidad}: El \textit{sample-efficiency} en una sola tarea no debe ser el único criterio de evaluación.
+    Métricas como \textit{LoCA} regret y el montaje \textit{LoCA} ofrecen una mejor medida del comportamiento basado en modelos, comparado con el \textit{sample-efficiency} en una sola tarea.
+    \item \textbf{Reevaluación de las fortalezas del \textit{MBRL}}: Se asume que \textit{MBRL} facilita la adaptabilidad, pero los resultados muestran lo contrario.
+    Esto desafía la creencia de que los modelos basados en aprendizaje profundo mejoran automáticamente la capacidad de adaptación y resalta la necesidad de nuevas investigaciones.
+    \item \textbf{Olvido catastrófico}: Los algoritmos \textit{MBRL} deben retener conocimientos previos mientras aprenden nueva información.
+    Métodos de aprendizaje continuo, como regularización o estrategias de repetición de memoria, pueden mejorar la adaptabilidad.
+    \item \textbf{Repensar la gestión del buffer de repetición}: Un buffer grande causa interferencia con tareas antiguas, mientras que uno pequeño provoca olvido catastrófico.
+    Estrategias como repetición priorizada o ajuste dinámico del tamaño del buffer pueden mejorar el rendimiento.
+    \item \textbf{Exploración basada en modelos}: Para mejorar la exploración, se pueden usar los modelos pre-entrenados para identificar regiones prometedoras del espacio de estados o integrar señales para incentivar la exploración de estados.
+    \item \textbf{Elementos on-policy}: Aunque estos elementos mejoran la eficiencia en una sola tarea, afectan la capacidad del modelo para adaptarse rápidamente a cambios locales.
+    \item \textbf{Aplicaciones del mundo real}: La dificultad para lograr una adaptación rápida y robusta limita la implementación de \textit{MBRL} en áreas como robótica, conducción autónoma y gestión de recursos, donde la adaptabilidad es crucial.
+    \item \textbf{Enfoques híbridos}: Algoritmos como \textit{MuZero} combinan los beneficios de la planeación de alto rendimiento con métodos de refuerzo sin modelo, lo que puede ayudar a superar las limitaciones actuales.
+\end{itemize}
+
+\subsection{Trabajo futuro}\label{subsec:trabajo-futuro}
+
+De la evaluación de \textit{PlaNet} y \textit{DreamerV2} en \textit{ReacherLoCA} se abren posibles líneas de investigación en aprendizaje por refuerzo basado en modelos \textit{(MBRL)}:
+
+\begin{itemize}
+    \item \textbf{Olvido catastrófico}:
+    \begin{itemize}
+        \item Resolver el olvido catastrófico es crucial tanto para el entorno \textit{LoCA} como para el aprendizaje continuo en general.
+        Aunque se han logrado avances, aún no existe una solución completamente efectiva.
+        \item Se deben explorar métodos que permitan a los agentes \textit{MBRL} retener conocimientos previos mientras se adaptan a nuevos entornos.
+    \end{itemize}
+
+    \item \textbf{Estrategias de exploración}:
+    \begin{itemize}
+        \item Desarrollar técnicas de exploración más eficientes para detectar cambios en la dinámica del entorno y la estructura de recompensas.
+        \item Integrar motivación intrínseca para incentivar la exploración y facilitar la adaptación.
+    \end{itemize}
+
+    \item \textbf{Mejorar de \textit{sample-efficiency}}:
+    \begin{itemize}
+        \item Investigar métodos que permitan aprender modelos precisos con pocos datos.
+        \item Explorar meta-aprendizaje para que los agentes aprendan a modelar dinámicas más rápido y se adapten mejor a nuevas tareas.
+    \end{itemize}
+
+    \item \textbf{Buffer de repetición}:
+    \begin{itemize}
+        \item Diseñar estrategias para priorizar o filtrar datos dinámicamente, evitando la interferencia de información obsoleta sin perder cobertura del espacio de estados.
+        \item Desarrollar técnicas para detectar y eliminar datos desactualizados en el buffer.
+        \item Implementar repetición de experiencias priorizada para enfocarse en las transiciones más relevantes.
+    \end{itemize}
+
+    \item \textbf{Nuevas arquitecturas}:
+    \begin{itemize}
+        \item Diseñar modelos y objetivos de entrenamiento que promuevan mejor generalización y adaptación.
+        \item Investigar el uso de modelos probabilísticos para manejar la incertidumbre y mejorar la robustez ante cambios en el entorno.
+    \end{itemize}
+
+    \item \textbf{Sesgo/Varianza}:
+    \begin{itemize}
+        \item Investigar cómo detectar y mitigar los sesgos en sistemas de decisión automática para mejorar su impacto positivo.
+    \end{itemize}
+\end{itemize}

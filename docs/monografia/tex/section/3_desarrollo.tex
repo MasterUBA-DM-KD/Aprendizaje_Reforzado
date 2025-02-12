@@ -1,0 +1,181 @@
+\section{Desarrollo}\label{sec:desarrollo}
+
+Los autores \textit{Wan et al.} se vieron motivados a medir la adaptabilidad de los modelos de aprendizaje por refuerzo basado en modelos dado el momentum y la atención que ha recibido en la comunidad científica.
+Para ello, investigaron la adaptabilidad de los modelos PlaNet y DreamerV2~\cite{PlaNet_and_DreamerV2_2019} con una versión mejorada del algoritmo que es más robusta, simple y que aborda las limitaciones de la versión original\textit{LoCA}~\cite{YiWan_2022}.
+
+\subsection{Versión mejorada de \textit{LoCA}}\label{subsec:version-mejorada-de-textit{loca}}
+
+Como se mencionó en la Sección~\ref{subsec:loca-adaptacion-de-cambio-local}, \textit{LoCA} es un algoritmo de evaluación de adaptabilidad de modelos de aprendizaje por refuerzo basado en modelos que consta de dos configuraciones: \textit{tarea} y \textit{experimento}.
+
+Los autores \textit{Wan et al.} no modificaron la configuración de \textit{tarea} de \textit{LoCA}, pero sí la de \textit{experimento}.
+Los cambios claves se listan a continuación:
+
+\paragraph{Evaluación del desempeño}
+El rendimiento es evaluado al medir el retorno promedio sobre los episodios de evaluación y se comparan con el retorno promedio que corresponde a la política óptima.
+
+\paragraph{Distribución del estado inicial}
+El estado inicial incluye todo el espacio de estados, y no solo un subconjunto de estados entre $T_1$ y $T_2$ como se planteó en la versión original de \textit{LoCA}.
+
+\paragraph{Evaluación en todas las fases}
+El rendimiento es evaluada en las tres fases y no únicamente en la última fase, es decir, en el entrenamiento de la tarea \textit{A}, en el entrenamiento de la tarea \textit{B} en el área $T_1$ y en el entrenamiento de la tarea \textit{B} en todo el espacio de estados.
+
+\paragraph{Evaluación binaria}
+Los resultados alimentarán un modelo de clasificación binaria para los métodos basados en modelos, capaz de determinar si un modelo se adapta a los cambios locales en el entorno o no.
+En cambio, el algoritmo original busca cuantificar qué tan alejado está el modelo de un proceso de adaptación ideal a la nueva tarea.
+
+Los autores \textit{Wan et al.} consideraron que estos cambios permitirían una evaluación más precisa de la adaptabilidad de los modelos de aprendizaje por refuerzo basado en modelos y menciona que usar el retorno esperado para evaluar la calidad de la política trae consigo varias ventajas~\cite{YiWan_2022}:
+
+\begin{itemize}
+    \item Permite el uso completo del espacio de estados como distribución inicial.
+    \item Remueve la necesidad de un hiperparámetro que defina el tiempo límite.
+    \item Hace que el proceso evaluativo sea más flexible y robusto.
+    \item El método de clasificación binaria simplifica la evaluación de la adaptabilidad.
+    \item El algoritmo \textit{LoCA} mejorado puede aplicarse a ambientes estocásticos sin modificación.
+\end{itemize}
+
+\subsection{PlaNet y DreamerV2}\label{subsec:planet-y-dreamerv2}
+
+Los modelos \textit{PlaNet} y \textit{DreamerV2} fueron seleccionados por los autores \textit{Wan et al.} para evaluar su adaptabilidad con la versión mejorada de \textit{LoCA} dadas sus características:
+
+\paragraph{Rendimiento - Estado del arte}
+Tanto \textit{PlaNet} como \textit{DreamerV2} son algoritmos de aprendizaje por refuerzo basado en modelos que muestran capaces de ejecutar tareas complejas, como el control continuo, con un rendimiento comparable al estado del arte.
+
+\paragraph{Métodos basados en modelos con redes neuronales}
+Ambos modelos fueron diseñados para aprender de las transiciones y contener un buffer de repetición para almacenar transiciones ya visitadas (experiencia pasada).
+
+\paragraph{Planeación Espacio latente}
+\textit{PlaNet} aprende un modelo de dinámicas latentes desde la observación de imágenes y elige acciones tras planear en el espacio latente.
+El espacio latente le permite realizar predicciones a largo plazo mediante trayectorias estocásticas y determinísticas.
+Por otro lado, \textit{DreamerV2} aprende comportamiento mediante imaginación latente.
+
+\paragraph{Espacios de acción continuos}
+Ambos algoritmos están diseñados para desempeñar tareas de control continuo, por lo que son útiles en problemas de control con robótica, por ejemplo el dominio de \textit{ReacherLoCA}.
+
+\paragraph{Disponibilidad e Implementación}
+Se encuentran implementaciones disponibles para ambos métodos, lo que facilita su uso y experimentación en el dominio \textit{ReacherLoCA}.
+En ambos casos requirieron cambios menores para adaptarse al entorno de evaluación.
+
+\paragraph{Repetición de experiencias}
+Ambos métodos usan un buffer de repetición, lo que los hace relevantes para medir su adaptabilidad en nuevos entornos y funciones de recompensa.
+
+Los autores \textit{Wan et al.} enfocaron su estudio en entender qué tan rápido el agente puede adaptarse, y si los datos sin actualizar almacenados en el buffer de repetición interfieren con la adaptación a nuevas tareas.
+En caso de encontrar interferencia, si el agente puede reinicializar el buffer de repetición al inicio de la Fase 2 que, en términos del algoritmo, representa un cambio total en la tarea.
+
+\subsection{ReacherLoCA}\label{subsec:reacherloca}
+
+El dominio original \textit{Reacher} consiste en el control de la velocidad angular de un brazo robótico de dos articulaciones, con el objetivo de mover la punta de la segunda barra hacia un objetivo que se genera de manera aleatoria.
+Un diagrama más ilustrativo puede encontrarse en la documentación de Gymnasium\footnotemark.
+El agente recibe una recompensa de $r=1$, en cada paso de tiempo $t$, si la punta de la barra está sobre el objetivo, el episodio termina después de 1000 pasos de tiempo y las posiciones iniciales y objetivos son generados de manera aleatoria al inicio de cada episodio.
+La versión \textit{ReacherLoCA} tiene muchas de las características del dominio original, se diferencia en las siguientes características:
+\footnotetext{\url{https://gymnasium.farama.org/environments/mujoco/reacher/}}
+
+\begin{itemize}
+    \item \textbf{Dos objetivos}: Se agregó un segundo objetivo, y los lugares de ambos objetivos son fijan en esquinas opuestas del dominio.
+    \item \textbf{Pasaje unidireccional}: Se agregó un pasaje unidireccional alrededor de uno de los objetivos.
+\end{itemize}
+
+Las demás características como la terminación de episodio se mantuvo intacta, terminan después de exactamente 5000 pasos de tiempo, y las recompensas $r_A$ y $r_B$ se aplican al dominio modificado~\cite{YiWan_2022}.
+
+Si bien se realizaron modificaciones al dominio original \textit{Reacher}, se permitieron conservar la mayoría de los hiperparámetros y realizando cambios menores sobre los modelos \textit{PlaNet} y \textit{DreamerV2}, como se mencionó en la Sección~\ref{subsec:planet-y-dreamerv2}.
+
+La Figura~\ref{fig:reacherloca} muestra un diagrama del dominio \textit{ReacherLoCA}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.3\textwidth]{reacherloca}
+    \caption{Diagrama del dominio \textit{ReacherLoCA}.}
+    \label{fig:reacherloca}
+\end{figure}
+
+Donde,\\
+Las esferas rojas representan los objetivos,\\
+Las barras amarillas representan el brazo robótico.\\
+Las líneas punteadas la frontera de la zona $T_1$.
+
+\subsection{Buffer de repetición}\label{subsec:buffer-de-repeticion}
+Los métodos \textit{PlaNet} y \textit{DreamerV2} utilizan un buffer de repetición, también llamado \textit{conjunto de datos de experiencia}, que contiene todas las transiciones visitadas recientemente por el agente.
+El buffer de repetición es un mecanismo clave en el proceso de aprendizaje, ya que permite al agente aprender de experiencias pasadas y mejorar la eficiencia de la actualización de los modelos.
+Sin embargo, el buffer de repetición también puede ser una fuente de interferencia en la adaptación a nuevas tareas, ya que las transiciones pasadas pueden no ser relevantes para la tarea actual y su actualización no se lleva a cabo de manera expedita al cambiar de tarea, durante la Fase 2.
+
+Los autores \textit{Wan et al.} investigaron si el buffer de repetición afecta la adaptabilidad de los modelos en cuestión, por ello se plantearon las siguientes variantes para el algoritmo:
+
+\begin{itemize}
+    \item \textbf{Reinicialización del buffer de repetición}: El buffer de repetición se reinicializa al inicio de la Fase 2, es decir, se vacía y se introducen cierto número de transiciones generadas siguiendo una política aleatoria.
+    \item \textbf{Buffer de repetición sin reinicialización}: El buffer de repetición se mantiene intacto durante la Fase 2, es decir, no se vacía y se mantiene la información de las transiciones pasadas.
+\end{itemize}
+
+La primera variante busca remover conocimiento desactualizado del buffer y que se tome en cuenta únicamente la información relevante para la nueva tarea, mientras que la segunda variante busca evaluar si la información pasada puede interferir con la adaptación a la nueva tarea.
+No obstante, los autores encontraron un dilema con el buffer de repetición.
+
+\begin{itemize}
+    \item Un buffer de repetición grande causa interferencia trayendo consigo información desactualizada.
+    \item Un buffer de repetición pequeño causa que el modelo realice predicciones equivocadas para áreas no visitadas recientemente debido a un \textit{olvido catastrófico}.
+\end{itemize}
+
+\subsection{Curvas de aprendizaje}\label{subsec:curvas-de-aprendizaje}
+
+Las curvas de aprendizaje se muestran en la Figura~\ref{fig:curvas-de-aprendizaje} y muestran el retorno sin descuento obtenido port los agentes durante el entrenamiento en las tres fases.
+Las curvas muestran la evolución del rendimiento del agente en su interacción con el dominio y cómo aprende a adaptar su política a las nuevas tareas.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[H]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{plaNet-plot}
+        \caption[Curvas de aprendizaje de \textit{PlaNet}.]{Curvas de aprendizaje de \textit{PlaNet}.}
+        \label{fig:curvas-de-aprendizaje-planet}
+    \end{subfigure}
+    \begin{subfigure}[H]{0.8\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{dreamerV2-plot}
+        \caption[Curvas de aprendizaje de \textit{DreamerV2}.]{Curvas de aprendizaje de \textit{DreamerV2}.}
+        \label{fig:curvas-de-aprendizaje-dreamerv2}
+    \end{subfigure}
+
+    \caption[Curvas de aprendizaje de los modelos \textit{PlaNet} y \textit{DreamerV2}.]{Curvas de aprendizaje\footnotemark de los modelos \textit{PlaNet} y \textit{DreamerV2}~\cite{YiWan_2022}.}
+    \label{fig:curvas-de-aprendizaje}
+\end{figure}
+
+\footnotetext{Para el escenario en el que el buffer de repetición se limpia al inicio de cada fase, lo reinicializamos con 50 episodios aleatorios (50000 pasos).}
+
+Las Figura~\ref{fig:curvas-de-aprendizaje-planet} y~\ref{fig:curvas-de-aprendizaje-dreamerv2} muestran que ninguno de los modelos lograron adaptar su política en la Fase 2, sin importar si el buffer de repetición fue reinicializado o no.
+Por otro lado, se apreció un bajo rendimiento en la Fase 3 en los casos en los que el buffer no fue reinicializado.
+Aquellos casos en los que el buffer fue reinicializado, se observó un que la recompensa predicha $T_1$ sobrestima la recompensa real, lo que sugiere que el modelo continúa usando información desactualizada para realizar predicciones y su proceso de planeación se ve afectado, en consecuencia el aprendizaje se ralentizó.
+La Figura~\ref{fig:curvas-de-aprendizaje-planet} muestra que el agente estimó incorrectamente la recompensa independiente de si el buffer fue reinicializado o no.
+
+La Figura~\ref{fig:heatmaps-dreamerv2} muestra los mapas de calor de la recompensa predicha por \textit{DreamerV2} en las Fases de \textit{ReacherLoCA}.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[H]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{phase1}
+        \caption{Fase 1.}
+        \label{fig:heatmap-dreamerv2-phase1}
+    \end{subfigure}
+    \begin{subfigure}[H]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{phase2}
+        \caption{Fase 2.}
+        \label{fig:heatmap-dreamerv2-phase2}
+    \end{subfigure}
+    \begin{subfigure}[H]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{phase3}
+        \caption{Fase 3.}
+        \label{fig:heatmap-dreamerv2-phase3}
+    \end{subfigure}
+
+    \begin{subfigure}[H]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{phase2-cleared}
+        \caption{Fase 2 con buffer reinicializado.}
+        \label{fig:heatmap-dreamerv2-phase2-cleared}
+    \end{subfigure}
+    \begin{subfigure}[H]{0.3\textwidth}
+        \includegraphics[width=\textwidth]{phase3-cleared}
+        \caption{Fase 3 con buffer reinicializado.}
+        \label{fig:heatmap-dreamerv2-phase3-cleared}
+    \end{subfigure}
+    \caption{Mapas de calor de la recompensa predicha por \textit{DreamerV2} en las Fases de \textit{ReacherLoCA}.}
+    \label{fig:heatmaps-dreamerv2}
+\end{figure}
+
+De la Figura~\ref{fig:heatmap-dreamerv2-phase2-cleared} se aprecia que la recompensa predicha en la Fase 2 cuenta con una alta varianza en la estimación de la recompensa, lo que sugiere que el modelo no logra aprender la estructura de recompensa de la tarea $T_2$.
+Por otro lado, la Figura~\ref{fig:heatmap-dreamerv2-phase3-cleared} se asemeja a aquellas en las fases 1, 2 y 3 que se muestran en las Figuras~\ref{fig:heatmap-dreamerv2-phase1},~\ref{fig:heatmap-dreamerv2-phase2} y~\ref{fig:heatmap-dreamerv2-phase3}, respectivamente.
